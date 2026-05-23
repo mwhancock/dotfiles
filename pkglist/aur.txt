@@ -1,0 +1,4 @@
+bottles
+fvs2
+jetbrains-lxgw-nerd-mono-ttf
+wvkbd

@@ -40,6 +40,7 @@ cachyos-v4-mirrorlist
 cachyos-wallpapers
 cachyos-zsh-config
 cantarell-fonts
+cartridges
 chwd
 cmake
 cpupower
@@ -65,6 +66,7 @@ f2fs-tools
 fastfetch
 ffmpegthumbnailer
 firefox
+flatpak
 foomatic-db
 foomatic-db-engine
 foomatic-db-gutenprint-ppds
@@ -162,6 +164,7 @@ plymouth
 poppler-glib
 power-profiles-daemon
 profile-sync-daemon
+protonplus
 pv
 python
 python-defusedxml
@@ -171,6 +174,7 @@ rebuild-detector
 reflector
 ripgrep
 rsync
+rustlings
 rustup
 s-nail
 sddm

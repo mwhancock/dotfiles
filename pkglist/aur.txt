@@ -1,4 +1,7 @@
 bottles
 fvs2
+gopac-bin
 jetbrains-lxgw-nerd-mono-ttf
+pacseek
+parui
 wvkbd

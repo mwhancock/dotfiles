@@ -1,0 +1,4 @@
+dev.aunetx.deezer
+eu.jumplink.Learn6502
+it.mijorus.gearlever
+rest.insomnia.Insomnia

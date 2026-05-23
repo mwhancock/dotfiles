@@ -1,3 +1,6 @@
 function bptui
-    bash ~/bptui/bptui.sh $argv
+    begin
+        cd ~/bptui
+        bash bptui.sh $argv
+    end
 end

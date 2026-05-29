@@ -183,10 +183,24 @@
                     "usePadding": false
                 },
                 {
+                    "defaultSettings": {
+                        "compactMode": false,
+                        "defaultPeerAction": "copy-ip",
+                        "hideDisconnected": false,
+                        "hideMullvadExitNodes": true,
+                        "loginServer": "",
+                        "pingCount": 5,
+                        "refreshInterval": 5000,
+                        "showIpAddress": true,
+                        "showPeerCount": true,
+                        "showSearchBar": false,
+                        "sshUsername": "",
+                        "taildropDownloadDir": "~/Downloads",
+                        "taildropEnabled": true,
+                        "taildropReceiveMode": "operator",
+                        "terminalCommand": ""
+                    },
                     "id": "plugin:tailscale"
-                },
-                {
-                    "id": "plugin:keybind-cheatsheet"
                 },
                 {
                     "displayMode": "onhover",
@@ -203,6 +217,15 @@
                     "textColor": "none"
                 },
                 {
+                    "defaultSettings": {
+                        "autoMount": false,
+                        "fileBrowser": "yazi",
+                        "hideWhenEmpty": false,
+                        "iconColor": "none",
+                        "showBadge": false,
+                        "showNotifications": true,
+                        "terminalCommand": "kitty"
+                    },
                     "id": "plugin:usb-drive-manager"
                 },
                 {
@@ -233,6 +256,9 @@
                     "unreadBadgeColor": "primary"
                 },
                 {
+                    "defaultSettings": {
+                        "iconColor": "none"
+                    },
                     "id": "plugin:mimeapp-gui"
                 }
             ]
@@ -242,7 +268,7 @@
         "backlightDeviceMappings": [
         ],
         "brightnessStep": 5,
-        "enableDdcSupport": false,
+        "enableDdcSupport": true,
         "enforceMinimum": true
     },
     "calendar": {
@@ -731,7 +757,7 @@
         "useOriginalImages": false,
         "useSolidColor": false,
         "useWallhaven": false,
-        "viewMode": "single",
+        "viewMode": "recursive",
         "wallhavenApiKey": "",
         "wallhavenCategories": "111",
         "wallhavenOrder": "desc",

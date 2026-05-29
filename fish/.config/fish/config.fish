@@ -14,3 +14,6 @@ function sync-packages
     git push
     echo "Done!"
 end
+
+fish_add_path ~/.platformio/penv/bin
+fnm env --use-on-cd | source

@@ -1,5 +1,5 @@
     prefer-no-csd
-    screenshot-path null
+    screenshot-path "~/Nextcloud/Pictures/Screenshots/Screenshot-%Y-%m-%d-%H-%M-%S.png"
 
     environment {
         ELECTRON_OZONE_PLATFORM_HINT "auto"
@@ -16,7 +16,6 @@
     }
 
     debug {
-        // Allows notification actions and window activation from Noctalia.
         honor-xdg-activation-with-invalid-serial
     }
 

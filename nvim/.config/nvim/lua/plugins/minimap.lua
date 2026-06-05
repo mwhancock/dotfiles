@@ -8,7 +8,7 @@ return {
         encode = mini_map.gen_encode_symbols.dot("4x2"),
       },
       window = {
-        width = 20,
+        width = 15,
       },
     })
 

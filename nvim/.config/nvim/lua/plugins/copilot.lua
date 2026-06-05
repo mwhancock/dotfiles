@@ -1,9 +1,10 @@
-return {
-  "zbirenbaum/copilot.lua",
-  cmd = "Copilot",
-  event = "InsertEnter",
-  opts = {
-    suggestion = { enabled = false },
-    panel = { enabled = false },
+require("copilot").setup({
+  suggestion = {
+    enabled = true,
+    auto_trigger = false,
+    keymap = {
+      accept = "<M-l>",
+      toggle_copilot = "<M-o>",
+    },
   },
-}
+})

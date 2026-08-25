@@ -1,9 +1,0 @@
-{
-  "autoMount": true,
-  "fileBrowser": "yazi",
-  "terminalCommand": "ghostty",
-  "showNotifications": true,
-  "hideWhenEmpty": true,
-  "showBadge": false,
-  "iconColor": "none"
-}

@@ -30,7 +30,7 @@ gestures {
 // Find the full list of options on the wiki:
 // https://github.com/YaLTeR/niri/wiki/Configuration:-Input
 input {
-    focus-follows-mouse max-scroll-amount="0%"
+  focus-follows-mouse
     keyboard {
         xkb {
             // You can set rules, model, layout, variant and options.
@@ -169,7 +169,6 @@ overview {
 // which may be more convenient to use.
 // See the binds section below for more spawn examples.
 // This line starts waybar, a commonly used bar for Wayland compositors.
-spawn-at-startup "iio-niri" "listen"
 environment {
   XDG_CURRENT_DESKTOP "niri"
 }
@@ -289,4 +288,3 @@ include "dms/alttab.kdl"
 include "dms/binds.kdl"
 include "dms/outputs.kdl"
 include "dms/cursor.kdl"
-include "dms/windowrules.kdl"

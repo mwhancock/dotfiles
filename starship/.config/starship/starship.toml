@@ -1,0 +1,87 @@
+# ==========================================
+# MATERIAL GRUVBOX CUSTOM STARSHIP PROMPT
+# ==========================================
+
+# Don't add a newline between prompts
+add_newline = false
+
+# Custom order of prompt modules
+format = """
+$directory\
+$git_branch\
+$git_status\
+$c\
+$rust\
+$python\
+$status\
+$character"""
+
+# Define your exact reference colors as internal variables
+[palettes.material_gruvbox]
+bg = "#282828"
+fg = "#ebdbb2"
+gold = "#d79921"
+blue = "#458588"
+green = "#b8bb26"
+purple = "#b16286"
+red = "#cc241d"
+gray = "#a89984"
+
+# Set the active color palette
+palette = "material_gruvbox"
+
+# --- Main Input Character ---
+[character]
+success_symbol = "[❯](gold bold)"
+error_symbol = "[❯](red bold)"
+
+# --- Directory View ---
+[directory]
+style = "blue bold"
+truncation_length = 3
+truncate_to_repo = true
+read_only = " 🔒"
+read_only_style = "red"
+
+# --- Git Integration ---
+[git_branch]
+symbol = " "
+style = "purple bold"
+format = "on [$symbol$branch]($style) "
+
+[git_status]
+style = "red bold"
+format = "[[[$all_status$ahead_behind]]($style)]_ "
+conflicted = "🏳 "
+ahead = "⇡${count} "
+behind = "⇣${count} "
+diverged = "⇕⇡${count}⇣${count} "
+untracked = "?${count} "
+stashed = "$${count} "
+modified = "!${count} "
+staged = "+${count} "
+renamed = "»${count} "
+deleted = "✘${count} "
+
+# --- Smart Toolchain Context Detection ---
+[c]
+symbol = " "
+style = "green"
+format = "via [$symbol$version]($style) "
+
+[rust]
+symbol = "🦀 "
+style = "red bold"
+format = "via [$symbol$version]($style) "
+
+[python]
+symbol = " "
+style = "gold"
+format = "via [$symbol$version]($style) "
+
+# --- Execution Error Checking ---
+[status]
+disabled = false
+format = "[$symbol$status]($style) "
+symbol = "✘ "
+style = "red bold"

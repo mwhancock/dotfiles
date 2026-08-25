@@ -5,20 +5,6 @@
 config-notification {
     disable-failed
 }
-// Outputs from existing configuration
-
-output "eDP-1" {
-    mode "1920x1200@165.00"
-    scale 1.0
-    position x=0 y=0
-    variable-refresh-rate
-}
-
-output "DP-3" {
-    mode "1920x1080@60.00"
-    position x=1920 y=0
-    variable-refresh-rate
-}
 
 gestures {
     hot-corners {
@@ -30,7 +16,6 @@ gestures {
 // Find the full list of options on the wiki:
 // https://github.com/YaLTeR/niri/wiki/Configuration:-Input
 input {
-    focus-follows-mouse max-scroll-amount="0%"
     keyboard {
         xkb {
             // You can set rules, model, layout, variant and options.
@@ -98,7 +83,11 @@ input {
 // Find more information on the wiki:
 // https://github.com/YaLTeR/niri/wiki/Configuration:-Outputs
 // Remember to uncomment the node by removing "/-"!
-
+/-output "eDP-2" {
+    mode "2560x1600@239.998993"
+    position x=2560 y=0
+    variable-refresh-rate
+}
 // Settings that influence how windows are positioned and sized.
 // Find more information on the wiki:
 // https://github.com/YaLTeR/niri/wiki/Configuration:-Layout
@@ -169,7 +158,6 @@ overview {
 // which may be more convenient to use.
 // See the binds section below for more spawn examples.
 // This line starts waybar, a commonly used bar for Wayland compositors.
-spawn-at-startup "iio-niri" "listen"
 environment {
   XDG_CURRENT_DESKTOP "niri"
 }
@@ -283,10 +271,9 @@ recent-windows {
 }
 
 // Include dms files
-include "dms/colors.kdl"
-include "dms/layout.kdl"
-include "dms/alttab.kdl"
-include "dms/binds.kdl"
-include "dms/outputs.kdl"
-include "dms/cursor.kdl"
-include "dms/windowrules.kdl"
+include "~/dotfiles/niri/.config/niri/dms/colors.kdl"
+include "~/dotfiles/niri/.config/niri/dms/layout.kdl"
+include "~/dotfiles/niri/.config/niri/dms/alttab.kdl"
+include "~/dotfiles/niri/.config/niri/dms/binds.kdl"
+include "~/dotfiles/niri/.config/niri/dms/outputs.kdl"
+include "~/dotfiles/niri/.config/niri/dms/cursor.kdl"

@@ -1,0 +1,79 @@
+# ==========================================
+# MATERIAL GRUVBOX CUSTOM THEME FOR ZATHURA
+# ==========================================
+
+set guioptions ""
+
+# --- Default Document Recolor (Initial Startup: Gruvbox Dark) ---
+set recolor                     "true"
+set recolor-lightcolor          "#282828"  # Background Normal / Custom Background
+set recolor-darkcolor           "#ebdbb2"  # Text Normal / Custom Foreground
+set recolor-keephue             "true"     # Preserves original colors/images nicely
+set recolor-keeplightness       "false"    # Allows background to invert cleanly
+
+# --- Default Interface Colors ---
+set default-bg                  "#282828"  # Background Normal / Custom Background
+set default-fg                  "#ebdbb2"  # Text Normal / Custom Foreground
+
+# --- Statusbar Colors ---
+set statusbar-bg                 "#1d2021"  # Background Toolbar / Panel Background
+set statusbar-fg                 "#a89984"  # Text Muted / Muted Foreground
+
+# --- Inputbar & Command Line ---
+set inputbar-bg                  "#3c3836"  # Background Notification Popover / Custom Input
+set inputbar-fg                  "#ebdbb2"  # Text Normal / Custom Popover Foreground
+
+# --- Tab / Index Mode ---
+set index-bg                     "#282828"  # Canvas / Custom Background
+set index-fg                     "#ebdbb2"  # Text Normal
+set index-active-bg              "#458588"  # Custom Secondary / Dialog Button Accent
+set index-active-fg              "#282828"  # Secondary Foreground (dark contrast)
+
+# --- Completion Menu (Command matching) ---
+set completion-bg                "#3c3836"  # Custom Popover / Muted
+set completion-fg                "#ebdbb2"  # Custom Foreground
+set completion-highlight-bg      "#458588"  # Primary Dialog Button Accent
+set completion-highlight-fg      "#282828"  # Clean dark text overlay
+set completion-group-bg          "#32302f"  # Background Toolbar Additional / Card
+set completion-group-fg          "#a89984"  # Text Muted
+
+# --- Search Highlights ---
+set highlight-color              "#d79921"  # Custom Primary (Yellow/Gold)
+set highlight-active-color       "#fe8019"  # Background Tab Underline (Orange)
+
+# --- UI Notifications ---
+# Loading state
+set render-loading               "true"
+set render-loading-bg            "#282828"
+set render-loading-fg            "#b8bb26"  # Background Loader (Gruvbox Green)
+
+# Information notifications
+set notification-bg              "#3c3836"
+set notification-fg              "#b8bb26"
+
+# Error notifications
+set notification-error-bg        "#3c3836"
+set notification-error-fg        "#cc241d"  # Custom Destructive (Red)
+
+# Warning notifications
+set notification-warning-bg      "#3c3836"
+set notification-warning-fg      "#d65d0e"  # Background Accent Button (Orange)
+
+# --- Format Overrides ---
+
+# For Comic Books (CBZ / CBR): Keep the interface dark but force the pages to show true original colors
+[cbz] set recolor "false"
+[cbr] set recolor "false"
+
+# For Ebooks (EPUB): Keep the soothing Gruvbox text inversion active
+[epub] set recolor "true"
+
+# ==========================================
+# GRUVOX DYNAMIC THEME ROUTING
+# ==========================================
+
+# Press 'd' to instantly pull in the Dark Mode scheme
+map d source ~/.config/zathura/theme_dark
+
+# Press 'l' to instantly pull in the Light Mode cream scheme
+map l source ~/.config/zathura/theme_light

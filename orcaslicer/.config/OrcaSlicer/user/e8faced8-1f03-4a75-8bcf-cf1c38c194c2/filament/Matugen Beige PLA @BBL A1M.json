@@ -1,0 +1,13 @@
+{
+    "type": "filament",
+    "name": "Matugen Beige PLA @BBL A1M",
+    "inherits": "Bambu PLA Basic @BBL A1M",
+    "from": "User",
+    "instantiation": "true",
+    "filament_colour": [
+        "#d7c5a0"
+    ],
+    "default_filament_colour": [
+        "#d7c5a0"
+    ]
+}

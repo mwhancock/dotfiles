@@ -1,0 +1,13 @@
+{
+    "type": "filament",
+    "name": "Matugen Coral PLA @BBL A1M",
+    "inherits": "Bambu PLA Basic @BBL A1M",
+    "from": "User",
+    "instantiation": "true",
+    "filament_colour": [
+        "#ffb4ab"
+    ],
+    "default_filament_colour": [
+        "#ffb4ab"
+    ]
+}

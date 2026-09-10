@@ -1,0 +1,158 @@
+{
+  "name": "Matugen Dark",
+  "type": "dark",
+  "colors": {
+    "focusBorder": "#ecc06c",
+    "foreground": "#ece1d4",
+    "selection.background": "#5a4300",
+    "descriptionForeground": "#9a8f80",
+    "errorForeground": "#ffb4ab",
+    "activityBar.background": "#17130b",
+    "activityBar.foreground": "#ece1d4",
+    "activityBar.inactiveForeground": "#9a8f80",
+    "activityBar.activeBorder": "#ecc06c",
+    "activityBarBadge.background": "#ecc06c",
+    "activityBarBadge.foreground": "#412d00",
+    "sideBar.background": "#1f1b13",
+    "sideBar.foreground": "#ece1d4",
+    "sideBar.border": "#4e4639",
+    "sideBarTitle.foreground": "#ece1d4",
+    "sideBarSectionHeader.background": "#241f17",
+    "sideBarSectionHeader.foreground": "#ece1d4",
+    "sideBarSectionHeader.border": "#4e4639",
+    "editorGroupHeader.tabsBackground": "#17130b",
+    "editorGroupHeader.tabsBorder": "#4e4639",
+    "tab.activeBackground": "#241f17",
+    "tab.activeForeground": "#ece1d4",
+    "tab.activeBorderTop": "#ecc06c",
+    "tab.inactiveBackground": "#17130b",
+    "tab.inactiveForeground": "#9a8f80",
+    "tab.border": "#4e4639",
+    "editor.background": "#17130b",
+    "editor.foreground": "#ece1d4",
+    "editorLineNumber.foreground": "#9a8f80",
+    "editorLineNumber.activeForeground": "#ecc06c",
+    "editorCursor.foreground": "#ecc06c",
+    "editor.selectionBackground": "#5a430080",
+    "editor.lineHighlightBackground": "#241f1780",
+    "editorWidget.background": "#241f17",
+    "editorWidget.border": "#4e4639",
+    "statusBar.background": "#17130b",
+    "statusBar.foreground": "#ece1d4",
+    "statusBar.border": "#4e4639",
+    "statusBarItem.hoverBackground": "#2f2921",
+    "titleBar.activeBackground": "#17130b",
+    "titleBar.activeForeground": "#ece1d4",
+    "titleBar.border": "#4e4639",
+    "panel.background": "#1f1b13",
+    "panel.border": "#4e4639",
+    "panelTitle.activeForeground": "#ecc06c",
+    "terminal.background": "#17130b",
+    "terminal.foreground": "#ece1d4",
+    "input.background": "#241f17",
+    "input.border": "#4e4639",
+    "input.foreground": "#ece1d4",
+    "inputOption.activeBorder": "#ecc06c",
+    "dropdown.background": "#241f17",
+    "dropdown.border": "#4e4639",
+    "dropdown.foreground": "#ece1d4",
+    "list.hoverBackground": "#2f2921",
+    "list.activeSelectionBackground": "#5a4300",
+    "list.activeSelectionForeground": "#ece1d4",
+    "list.inactiveSelectionBackground": "#2f2921",
+    "button.background": "#ecc06c",
+    "button.foreground": "#412d00",
+    "badge.background": "#ecc06c",
+    "badge.foreground": "#412d00"
+  },
+  "tokenColors": [
+    {
+      "name": "Comments",
+      "scope": [
+        "comment",
+        "punctuation.definition.comment"
+      ],
+      "settings": {
+        "foreground": "#9a8f80",
+        "fontStyle": "italic"
+      }
+    },
+    {
+      "name": "Keywords & Storage",
+      "scope": [
+        "keyword",
+        "storage.type",
+        "storage.modifier",
+        "keyword.control"
+      ],
+      "settings": {
+        "foreground": "#ecc06c"
+      }
+    },
+    {
+      "name": "Strings",
+      "scope": [
+        "string",
+        "punctuation.definition.string"
+      ],
+      "settings": {
+        "foreground": "#b2cfa7"
+      }
+    },
+    {
+      "name": "Numbers & Constants",
+      "scope": [
+        "constant.numeric",
+        "constant.language",
+        "constant.character"
+      ],
+      "settings": {
+        "foreground": "#d9c4a0"
+      }
+    },
+    {
+      "name": "Functions",
+      "scope": [
+        "entity.name.function",
+        "support.function"
+      ],
+      "settings": {
+        "foreground": "#b2cfa7"
+      }
+    },
+    {
+      "name": "Types & Classes",
+      "scope": [
+        "entity.name.type",
+        "support.type",
+        "entity.name.class",
+        "support.class"
+      ],
+      "settings": {
+        "foreground": "#ecc06c"
+      }
+    },
+    {
+      "name": "Variables & Parameters",
+      "scope": [
+        "variable",
+        "variable.parameter",
+        "entity.name.variable"
+      ],
+      "settings": {
+        "foreground": "#ece1d4"
+      }
+    },
+    {
+      "name": "Arduino Builtins & Pins",
+      "scope": [
+        "support.constant.arduino",
+        "entity.name.function.arduino"
+      ],
+      "settings": {
+        "foreground": "#ecc06c",
+        "fontStyle": "bold"
+      }
+    }
+  ]
+}

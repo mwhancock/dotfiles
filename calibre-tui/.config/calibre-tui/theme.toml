@@ -1,0 +1,63 @@
+foreground = "#eae1d4"
+background = "#17130b"
+accent = "#e7c26c"
+muted = "#999080"
+
+[search]
+border = "#e7c26c"
+title = "#e7c26c"
+text = "#eae1d4"
+
+[command]
+border = "#e7c26c"
+title = "#e7c26c"
+text = "#eae1d4"
+prefix = "#e7c26c"
+suggestion = "#999080"
+
+[table]
+border = "#4d4639"
+title = "#e7c26c"
+header = "#e7c26c"
+title_field = "#eae1d4"
+authors_field = "#d7c5a0"
+series_field = "#eae1d4"
+formats_field = "#e7c26c"
+tags_field = "#afcfab"
+
+[row]
+hover_foreground = "#eae1d4"
+hover_background = "#2e2921"
+selected_foreground = "#eae1d4"
+selected_background = "#5a4300"
+selected_hover_foreground = "#eae1d4"
+selected_hover_background = "#2e2921"
+
+[highlight]
+normal = "#ffb4ab"
+hover = "#e7c26c"
+selected = "#e7c26c"
+selected_hover = "#ffb4ab"
+
+[footer]
+message = "#999080"
+which_key_background = "#17130b"
+which_key_foreground = "#eae1d4"
+which_key_key = "#e7c26c"
+which_key_separator = "#999080"
+which_key_description = "#eae1d4"
+which_key_separator_text = "  "
+which_key_columns = 3
+
+[completion]
+foreground = "#eae1d4"
+background = "#17130b"
+selected_foreground = "#eae1d4"
+selected_background = "#5a4300"
+
+[help]
+background = "#17130b"
+border = "#e7c26c"
+key = "#e7c26c"
+description = "#eae1d4"
+muted = "#999080"

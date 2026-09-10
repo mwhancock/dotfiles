@@ -1,0 +1,66 @@
+/* Matugen Calibre stylesheet */
+QMainWindow, QDialog, QDockWidget {
+  background-color: #17130b;
+  color: #ece1d4;
+}
+QToolBar {
+  background-color: #1f1b13;
+  border-bottom: 1px solid #4e4639;
+  spacing: 3px;
+}
+QToolButton {
+  color: #ece1d4;
+  border-radius: 4px;
+  padding: 4px;
+}
+QToolButton:hover {
+  background-color: #2f2921;
+}
+QTableView, QListView, QTreeView {
+  background-color: #17130b;
+  color: #ece1d4;
+  selection-background-color: #5a4300;
+  selection-color: #ece1d4;
+  gridline-color: #2f2921;
+  border: 1px solid #4e4639;
+}
+QHeaderView::section {
+  background-color: #241f17;
+  color: #ece1d4;
+  border: 1px solid #4e4639;
+  padding: 4px;
+}
+QPushButton {
+  background-color: #241f17;
+  color: #ece1d4;
+  border: 1px solid #4e4639;
+  padding: 4px 12px;
+  border-radius: 4px;
+}
+QPushButton:hover {
+  background-color: #2f2921;
+  border-color: #ecc06c;
+}
+QLineEdit, QComboBox, QSpinBox {
+  background-color: #1f1b13;
+  color: #ece1d4;
+  border: 1px solid #4e4639;
+  border-radius: 4px;
+  padding: 3px;
+}
+QLineEdit:focus, QComboBox:focus, QSpinBox:focus {
+  border-color: #ecc06c;
+}
+QScrollBar:vertical {
+  background-color: #120e07;
+  width: 12px;
+  margin: 0;
+}
+QScrollBar::handle:vertical {
+  background-color: #4e4639;
+  border-radius: 6px;
+  min-height: 20px;
+}
+QScrollBar::handle:vertical:hover {
+  background-color: #9a8f80;
+}

@@ -1,115 +1,61 @@
+[mgr]
+ratio = [1, 3, 4]
+sort_by = "alphabetical"
+sort_sensitive = false
+sort_reverse = false
+sort_dir_first = true
+linemode = "size"
+show_hidden = false
+show_symlink = true
+
 [opener]
 edit = [
-    { run = '/usr/bin/nvim "$@"', block = true, desc = "Neovim", for = "unix" },
+    { run = '${EDITOR:-nvim} %s', desc = "Editor", block = true, for = "unix" },
 ]
-extract = [{ run = 'ouch d "$@"', desc = "Extract with ouch", for = "unix" }]
-
-document = [
-    { run = 'zathura "$@"', orphan = true, desc = "Zathura PDF viewer", for = "unix" },
+open = [
+    { run = 'xdg-open %s1', desc = "Open", orphan = true, for = "linux" },
 ]
-
-office = [
-	{ run = 'onlyoffice-desktopeditors "$@"', orphan = true, desc = "ONLYOFFICE" },
+pdf = [
+    { run = 'zathura %s', desc = "Zathura (Document/Comic Viewer)", orphan = true, for = "unix" },
 ]
-
-html = [
-    { run = 'firefox-nightly "$@"', orphan = true, desc = "Firefox Nightly", for = "unix" },
+media = [
+    { run = 'mpv %s', desc = "MPV Media Player", orphan = true, for = "unix" },
 ]
-
-cad = [
-    { run = 'freecad "$@"', orphan = true, desc = "FreeCAD", for = "unix" },
+browser = [
+    { run = 'firefox %s', desc = "Firefox Browser", orphan = true, for = "unix" },
 ]
 
-kicad = [
-    { run = 'flatpak run org.kicad.KiCad "$@"', orphan = true, desc = "KiCad", for = "unix" },
-]
-
-slicer = [
-    { run = 'flatpak run com.bambulab.BambuStudio "$@"', orphan = true, desc = "Bambu Studio", for = "unix" },
-]
-
-image_gui = [
-    { run = 'imageglass "$@"', orphan = true, desc = "ImageGlass", for = "unix" },
-]
-
-image_tui = [
-    { run = 'chafa "$1"; echo "Press Enter to close..."; read -r _', block = true, desc = "Chafa TUI Viewer", for = "unix" },
-]
-
-play = [
-    { run = 'mpv "$@"', orphan = true, desc = "MPV Player", for = "unix" },
-    { run = 'vlc "$@"', orphan = true, desc = "VLC Player", for = "unix" },
-]
 
 [open]
-rules = [
+prepend_rules = [
+    # PDFs, EPUBs, and Comics
+    { url = "*.pdf", use = [ "pdf", "open" ] },
+    { url = "*.epub", use = [ "pdf", "open" ] },
+    { url = "*.cbz", use = [ "pdf", "open" ] },
+    { url = "*.cbr", use = [ "pdf", "open" ] },
+    { url = "*.cb7", use = [ "pdf", "open" ] },
+    { url = "*.cbt", use = [ "pdf", "open" ] },
+    { url = "*.djvu", use = [ "pdf", "open" ] },
+    { url = "*.xps", use = [ "pdf", "open" ] },
+    { url = "*.oxps", use = [ "pdf", "open" ] },
+    { mime = "application/pdf", use = [ "pdf", "open" ] },
+    { mime = "application/epub+zip", use = [ "pdf", "open" ] },
+    { mime = "application/vnd.comicbook+zip", use = [ "pdf", "open" ] },
+    { mime = "application/vnd.comicbook-rar", use = [ "pdf", "open" ] },
+    { mime = "application/x-cbr", use = [ "pdf", "open" ] },
+    { mime = "application/x-cbz", use = [ "pdf", "open" ] },
 
-    # 3D Printing / Slicer Formats
-    { url = "*.3mf", use = "slicer" },
-    { url = "*.mf", use = "slicer" },
+    # Media
+    { mime = "video/*", use = [ "media", "open" ] },
+    { mime = "audio/*", use = [ "media", "open" ] },
 
-    # CAD Formats
-    { url = "*.stp", use = "cad" },
-    { url = "*.step", use = "cad" },
-    { url = "*.stl", use = "cad" },
-    { url = "*.dxf", use = "cad" },
-    { url = "*.igs", use = "cad" },
-    { url = "*.iges", use = "cad" },
-    { url = "*.brep", use = "cad" },
-    { url = "*.fcstd", use = "cad" },
-    { mime = "model/*", use = "cad" },
-    { mime = "application/iges", use = "cad" },
-    { mime = "image/vnd.dxf", use = "cad" },
-    { mime = "image/vnd.dwg", use = "cad" },
+    # Text & Code
+    { mime = "text/*", use = [ "edit", "open" ] },
+    { mime = "application/json", use = [ "edit", "open" ] },
+    { mime = "application/*javascript", use = [ "edit", "open" ] },
+    { mime = "application/toml", use = [ "edit", "open" ] },
+    { mime = "application/x-yaml", use = [ "edit", "open" ] },
 
-    # EDA/PCB Formats (KiCad / Eagle)
-    { url = "*.brd", use = "kicad" },
-    { url = "*.sch", use = "kicad" },
-    { url = "*.kicad_pcb", use = "kicad" },
-    { url = "*.kicad_sch", use = "kicad" },
-
-    # Images
-    { mime = "image/*", use = [ "image_tui", "image_gui" ] },
-
-    # Audio & Video
-    { mime = "video/*", use = [ "play" ] },
-    { mime = "audio/*", use = [ "play" ] },
-
-    # Data & Configuration formats
-    { mime = "application/json", use = "edit" },
-    { mime = "application/x-yaml", use = "edit" },
-    { mime = "application/toml", use = "edit" },
-    { mime = "application/xml", use = "edit" },
-
-    # Explicit Extension Matching (Using 'url')
-    { url = "*.cbz", use = "document" },
-    { url = "*.cbr", use = "document" },
-    { url = "*.epub", use = "document" },
-
-    # Specific Document Formats
-    { mime = "application/pdf", use = "document" },
-    { mime = "application/comicbook+zip", use = "document" },
-    { mime = "application/comicbook+rar", use = "document" },
-    { mime = "application/epub+zip", use = "document" },
-    { mime = "application/epub+rar", use = "document" },
-
-    # Catch-all Archive formats
-    { mime = "application/zip", use = "extract" },
-    { mime = "application/x-tar", use = "extract" },
-    { mime = "application/x-7z-compressed", use = "extract" },
-    { mime = "application/x-rar", use = "extract" },
-    { mime = "application/x-gzip", use = "extract" },
-    { mime = "application/x-bzip2", use = "extract" },
-    { mime = "application/x-xz", use = "extract" },
-
-    # Office Suite Documents
-    { mime = "application/openxmlformats-officedocument.*", use = "office" },
-    { mime = "application/msword", use = "office" },
-    { mime = "application/vnd.ms-excel", use = "office" },
-    { mime = "application/vnd.ms-powerpoint", use = "office" },
-    { mime = "application/vnd.oasis.opendocument.*", use = "office" },
-
-    { name = "*.html", mime = "text/html", use = [ "html", "edit" ] },
-    { mime = "text/html", use = [ "html", "edit"] },
-    { mime = "text/*", use = "edit" }
+    # Web
+    { mime = "text/html", use = [ "browser", "open" ] },
 ]

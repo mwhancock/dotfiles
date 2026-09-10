@@ -1,111 +1,89 @@
-function sync-packages
-    echo "Updating package manifests..."
-    # Arch Packages
-    pacman -Qqe | grep -v "$(pacman -Qqm)" >~/dotfiles/pkglist/pacman.txt
-    # AUR Packages
-    pacman -Qqm >~/dotfiles/pkglist/aur.txt
-    # Flatpak Apps
-    flatpak list --app --columns=application >~/dotfiles/pkglist/flatpaks.txt
+if status is-interactive
+    # Starship custom prompt
+    command -v starship &> /dev/null && starship init fish | source
 
-    echo "Committing to Git..."
-    cd ~/dotfiles
-    git add pkglist/
-    git commit -m "Auto-update package manifests"
-    git push
-    echo "Done!"
+    # Direnv + Zoxide
+    command -v direnv &> /dev/null && direnv hook fish | source
+    command -v zoxide &> /dev/null && zoxide init fish | source
+
+    # Vi keybindings
+    fish_vi_key_bindings
+
+    # Better ls
+    command -v eza &> /dev/null && alias ls='eza --icons --group-directories-first -1'
+
+    # Abbrs
+    abbr lg 'lazygit'
+    abbr gd 'git diff'
+    abbr ga 'git add .'
+    abbr gc 'git commit -am'
+    abbr gl 'git log'
+    abbr gs 'git status'
+    abbr gst 'git stash'
+    abbr gsp 'git stash pop'
+    abbr gp 'git push'
+    abbr gpl 'git pull'
+    abbr gsw 'git switch'
+    abbr gsm 'git switch main'
+    abbr gb 'git branch'
+    abbr gbd 'git branch -d'
+    abbr gco 'git checkout'
+    abbr gsh 'git show'
+
+    abbr l 'ls'
+    abbr ll 'ls -l'
+    abbr la 'ls -a'
+    abbr lla 'ls -la'
+
+    # History expansions (!! and !$)
+    function __history_previous_command
+        echo $history[1]
+    end
+
+    function __history_last_argument
+        set -l cmd (string split -n " " -- $history[1])
+        if set -q cmd[-1]
+            echo $cmd[-1]
+        end
+    end
+
+    abbr -a !! --position anywhere --function __history_previous_command
+    abbr -a -- '!$' --position anywhere --function __history_last_argument
+
+    # Gruvbox Material (Noctalia) syntax highlighting
+    set -g fish_color_normal ddc7a1
+    set -g fish_color_command a9b665 --bold
+    set -g fish_color_keyword e78a4e --bold
+    set -g fish_color_quote d8a657
+    set -g fish_color_redirection d3869b
+    set -g fish_color_end e78a4e
+    set -g fish_color_error ea6962
+    set -g fish_color_param ddc7a1
+    set -g fish_color_comment 928374 --italics
+    set -g fish_color_selection --background=504945
+    set -g fish_color_search_match --background=504945
+    set -g fish_color_operator 7daea3
+    set -g fish_color_escape 89b482
+    set -g fish_color_autosuggestion 7c6f64
+    set -g fish_color_cancel ea6962 --reverse
+
+    # Pager / tab-completion colors
+    set -g fish_pager_color_prefix d8a657 --bold --underline
+    set -g fish_pager_color_completion ddc7a1
+    set -g fish_pager_color_description 928374
+    set -g fish_pager_color_selected_background --background=504945
+    set -g fish_pager_color_selected_prefix d8a657 --bold
+    set -g fish_pager_color_selected_completion ebdbb2
+    set -g fish_pager_color_selected_description a89984
+
+    # For jumping between prompts in foot terminal
+    function mark_prompt_start --on-event fish_prompt
+        echo -en "\e]133;A\e\\"
+    end
 end
-
-#fish_add_path ~/.platformio/penv/bin
-fnm env --use-on-cd | source
-
-set -gx EDITOR nvim
 
 
 # Added by Antigravity CLI installer
 set -gx PATH "/home/mark/.local/bin" $PATH
-
-# ==========================================
-# MATERIAL GRUVBOX CONFIG FOR FISH
-# ==========================================
-
-# Disable the generic default greeting
-set -g fish_greeting ""
-
-# Custom Gruvbox Greeting Banner
-function fish_greeting
-    # Colors pulled straight from your Material Gruvbox spec
-    set -l orange (set_color d79921)
-    set -l blue   (set_color 458588)
-    set -l cream  (set_color ebdbb2)
-    set -l gray   (set_color a89984)
-    set -l normal (set_color normal)
-
-    echo ""
-    echo "                                  $blue      _.._     "
-    echo "                                  $blue    .' ._  '.    "
-    echo "                                  $blue   /  /   \\  \\  "
-    echo "                                  $blue   |  |   |  |     "
-    echo "                                    $blue '. '._.' .'     "
-    echo "                                      $blue '--''--'     "
-    echo "                                                       "
-    echo "                                       $cream   __  "
-    echo "                                       $cream  /\_\ "
-    echo "                                      $cream / / // "
-    echo "                                      $cream/ /  / "
-    echo "                                $cream   __/ /  / "
-    echo "                              ○  $cream/\__\/  / "
-    echo "                          $cream//|\ \_\/\/___/ "
-    echo "                         $cream//\  \/_/      "
-    echo "                         $cream //_//  "
-    echo "                                      "
-    echo "    $orange      _.._                "
-    echo "   $orange    .' ._  '.$cream 🍰 ≡ "
-    echo "   $orange   /  /   \\  \\    "
-    echo "   $orange   |  |   |  |       "
-    echo "   $orange    '. '._.' .'      "
-    echo "   $orange      '--''--'      "
-    echo "  $gray                     "
-    echo "  $gray   [ testing protocols initialized ] "
-    echo ""
-end
-
-# --- Syntax Highlighting Colors ---
-set -g fish_color_normal ebdbb2
-set -g fish_color_command 458588       # Blue / Secondary Accent
-set -g fish_color_quote b8bb26         # Pastel Green
-set -g fish_color_redirection b16286   # Purple / Custom Accent
-set -g fish_color_end a89984           # Muted Gray
-set -g fish_color_error cc241d         # Destructive Red
-set -g fish_color_param ebdbb2         # Normal Text
-set -g fish_color_comment 504945        # Dark Border / Comment Gray
-set -g fish_color_match d79921          # Gold Match
-set -g fish_color_selection 3c3836     # Muted Popover Background
-
-# --- Pager / Autocomplete Menu Colors ---
-set -g fish_pager_color_prefix 458588
-set -g fish_pager_color_completion ebdbb2
-set -g fish_pager_color_description a89984
-set -g fish_pager_color_progress 3c3836
-
-zoxide init fish | source
-starship init fish | source
-set -gx PATH (string match -v '*platformio*' $PATH)
-
-eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv fish)"
-
-# ==========================================
-# HISTORY EXPANSIONS (!! and !$)
-# ==========================================
-function __history_previous_command
-    echo $history[1]
-end
-
-function __history_last_argument
-    set -l cmd (string split -n " " -- $history[1])
-    if set -q cmd[-1]
-        echo $cmd[-1]
-    end
-end
-
-abbr -a !! --position anywhere --function __history_previous_command
-abbr -a -- '!$' --position anywhere --function __history_last_argument
+set -gx TERMINAL ghostty
+set -gx EDITOR nvim

@@ -1,0 +1,38 @@
+[theme.templates]
+enable_builtin_templates = true
+builtin_ids = [
+    "alacritty",
+    "btop",
+    "cava",
+    "foot",
+    "ghostty",
+    "gtk3",
+    "gtk4",
+    "hyprland",
+    "kcolorscheme",
+    "niri",
+    "qt",
+    "starship",
+    "umbriel",
+]
+
+enable_community_templates = true
+community_ids = [
+    "antigravity",
+    "bat",
+    "discord",
+    "fastfetch",
+    "fuzzel",
+    "fzf",
+    "heroiclauncher",
+    "lazygit",
+    "micro",
+    "neovim",
+    "spicetify",
+    "steam",
+    "tmux",
+    "ungoogled-chromium",
+    "yazi",
+    "zathura",
+    "zed",
+]

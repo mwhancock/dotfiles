@@ -1,0 +1,13 @@
+{
+    "type": "filament",
+    "name": "Matugen Gold PLA @BBL A1",
+    "inherits": "Bambu PLA Basic @BBL A1",
+    "from": "User",
+    "instantiation": "true",
+    "filament_colour": [
+        "#e7c26c"
+    ],
+    "default_filament_colour": [
+        "#e7c26c"
+    ]
+}

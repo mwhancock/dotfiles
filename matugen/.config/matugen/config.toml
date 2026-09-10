@@ -1,0 +1,6 @@
+[config]
+
+[templates.apps]
+input_path = '~/.config/matugen/templates/FreeCAD.yaml'
+output_path = '~/.local/share/FreeCAD/v1-1/Gui/Stylesheets/parameters/Matugen.yaml'
+post_hook = 'python3 ~/.local/bin/sync-matugen-apps.py'

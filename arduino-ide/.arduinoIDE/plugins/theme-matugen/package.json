@@ -1,0 +1,24 @@
+{
+  "name": "theme-matugen",
+  "displayName": "Matugen Dark",
+  "description": "Matugen Material Design 3 theme for Arduino IDE",
+  "version": "1.0.0",
+  "publisher": "matugen",
+  "engines": {
+    "vscode": "^1.60.0",
+    "theiaPlugin": "^1.0.0"
+  },
+  "categories": [
+    "Themes"
+  ],
+  "contributes": {
+    "themes": [
+      {
+        "id": "matugen-dark",
+        "label": "Matugen Dark",
+        "uiTheme": "vs-dark",
+        "path": "./themes/matugen-dark.json"
+      }
+    ]
+  }
+}

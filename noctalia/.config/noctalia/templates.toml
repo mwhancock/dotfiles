@@ -22,6 +22,7 @@ community_ids = [
     "bat",
     "discord",
     "fastfetch",
+    "freecad",
     "fuzzel",
     "fzf",
     "heroiclauncher",

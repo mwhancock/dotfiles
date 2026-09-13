@@ -64,7 +64,8 @@ def hex_to_rgb(hex_str):
 
 def hex_to_uint(hex_str, alpha=0xFF):
     r, g, b = hex_to_rgb(hex_str)
-    return (r << 24) | (g << 16) | (b << 8) | alpha
+    return (alpha << 24) | (r << 16) | (g << 8) | b
+
 
 print("=== Synchronizing Matugen App Themes ===")
 

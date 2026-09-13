@@ -64,6 +64,14 @@ input {
     // Uncomment this to make the mouse warp to the center of newly focused windows.
     // warp-mouse-to-focus
 
+    touch {
+        map-to-output "eDP-1"
+    }
+
+    tablet {
+        map-to-output "eDP-1"
+    }
+
     // Focus windows and outputs automatically when moving the mouse into them.
     // Setting max-scroll-amount="0%" makes it work only on windows already fully on screen.
     focus-follows-mouse
@@ -473,6 +481,8 @@ binds {
     Ctrl+Shift+B hotkey-overlay-title="Package Manager: bptui" { spawn "ghostty" "-e" "/home/mark/.local/bin/bptui"; }
     Ctrl+Shift+M hotkey-overlay-title="Email Client: Matcha" { spawn "ghostty" "-e" "matcha"; }
     Super+Alt+L hotkey-overlay-title="Lock the Screen: swaylock" { spawn "swaylock"; }
+    Mod+Alt+R hotkey-overlay-title="Toggle Auto-Rotate Lock" { spawn "/home/mark/.local/bin/niri-rotate-toggle.sh"; }
+    XF86RotationLockToggle allow-when-locked=true hotkey-overlay-title="Toggle Auto-Rotate Lock" { spawn "/home/mark/.local/bin/niri-rotate-toggle.sh"; }
 
     // Use spawn-sh to run a shell command. Do this if you need pipes, multiple commands, etc.
     // Note: the entire command goes as a single argument. It's passed verbatim to `sh -c`.

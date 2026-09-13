@@ -6,7 +6,7 @@
   <property name="zoomGesturesEnabled" value="true" />
   <property name="selectedToolbar" value="Portrait" />
   <property name="lastSavePath" value="" />
-  <property name="lastOpenPath" value="" />
+  <property name="lastOpenPath" value="/home/mark/Downloads" />
   <property name="lastImagePath" value="" />
   <property name="edgePanSpeed" value="20" />
   <property name="edgePanMaxMult" value="5" />
@@ -86,12 +86,12 @@
   <property name="pressureGuessing" value="false" />
   <property name="recolor.enabled" value="false" />
   <property name="recolor.sidebar" value="false" />
-  <property name="recolor.dark" value="387124223" />
-  <property name="recolor.light" value="3940668671" />
-  <property name="selectionBorderColor" value="3888278783" />
-  <property name="backgroundColor" value="387124223" />
-  <property name="selectionMarkerColor" value="2949622783" />
-  <property name="activeSelectionColor" value="3888278783" />
+  <property name="recolor.dark" value="4279702283" />
+  <property name="recolor.light" value="4293583316" />
+  <property name="selectionBorderColor" value="4293378668" />
+  <property name="backgroundColor" value="4279702283" />
+  <property name="selectionMarkerColor" value="4289712043" />
+  <property name="activeSelectionColor" value="4293378668" />
   <property name="touchZoomStartThreshold" value="0" />
   <property name="pageRerenderThreshold" value="5" />
   
@@ -185,7 +185,12 @@
       <attribute name="tool" type="string" value="none" />
     </data>
   </data>
-  <data name="deviceClasses" />
+  <data name="deviceClasses">
+    <data name="Wayland Pointer">
+      <attribute name="deviceClass" type="int" value="1" />
+      <attribute name="deviceSource" type="int" value="0" />
+    </data>
+  </data>
   <data name="tools">
     <attribute name="current" type="string" value="pen" />
     <data name="drawArrow" />

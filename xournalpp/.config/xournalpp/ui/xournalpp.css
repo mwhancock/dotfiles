@@ -1,0 +1,101 @@
+/* Matugen Theme for Xournal++ */
+
+/* Floating Toolbox */
+#floatingToolbox > box,
+#pdfFloatingToolGrid {
+    background-color: #17130b;
+    border: 1px solid #4d4639;
+    border-radius: 10px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.6);
+    margin: 6px;
+    padding: 6px;
+}
+
+#floatingToolbox box toolbar {
+    background-color: transparent;
+}
+
+#floatingToolbox button,
+#pdfFloatingToolGrid button {
+    background-color: #231f17;
+    color: #eae1d4;
+    border: 1px solid #4d4639;
+    border-radius: 6px;
+    margin: 2px;
+}
+
+#floatingToolbox button:hover,
+#pdfFloatingToolGrid button:hover {
+    background-color: #2e2921;
+    border-color: #999080;
+}
+
+#floatingToolbox button:checked,
+#pdfFloatingToolGrid button:checked {
+    background-color: #5a4300;
+    border-color: #e7c26c;
+    box-shadow: 0px 0px 4px #e7c26c;
+    color: #e7c26c;
+}
+
+/* Toolbars */
+toolbar {
+    background-color: #17130b;
+    border-color: #4d4639;
+}
+
+toolbar button {
+    border-radius: 6px;
+    padding: 3px;
+}
+
+toolbar button:hover {
+    background-color: #2e2921;
+}
+
+toolbar button:checked {
+    background-color: rgba(231, 194, 108, 0.25);
+    border-color: #e7c26c;
+    box-shadow: inset 0px 0px 3px #e7c26c;
+}
+
+/* Dark mode overrides */
+window.darkMode #floatingToolbox > box,
+window.darkMode #pdfFloatingToolGrid {
+    background-color: #17130b;
+    border: 1px solid #4d4639;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.7);
+}
+
+window.darkMode #floatingToolbox button,
+window.darkMode #pdfFloatingToolGrid button {
+    background: #231f17;
+    color: #eae1d4;
+    border: 1px solid #4d4639;
+}
+
+window.darkMode #floatingToolbox button:hover,
+window.darkMode #pdfFloatingToolGrid button:hover {
+    background: #2e2921;
+    border-color: #999080;
+}
+
+window.darkMode #floatingToolbox button:checked,
+window.darkMode #pdfFloatingToolGrid button:checked {
+    background: #5a4300;
+    border-color: #e7c26c;
+    box-shadow: 0px 0px 4px #e7c26c;
+    color: #e7c26c;
+}
+
+/* Sidebar styling */
+#sidebar {
+    background-color: #1f1b13;
+    border-right: 1px solid #4d4639;
+}
+
+/* Status / Settings */
+notebook frame > label {
+    color: #e7c26c;
+    font-weight: bold;
+}

@@ -557,4 +557,182 @@ try:
 except Exception as e:
     print(f"✗ OrcaSlicer error: {e}")
 
+# --- 8. Xournal++ ---
+try:
+    import xml.etree.ElementTree as ET
+    xopp_dir = os.path.expanduser("~/.config/xournalpp")
+    palettes_dir = os.path.join(xopp_dir, "palettes")
+    ui_dir = os.path.join(xopp_dir, "ui")
+    os.makedirs(palettes_dir, exist_ok=True)
+    os.makedirs(ui_dir, exist_ok=True)
+
+    # 1. Update Matugen.gpl
+    rgb_primary = hex_to_rgb(c_primary)
+    rgb_tertiary = hex_to_rgb(c_tertiary)
+    rgb_secondary = hex_to_rgb(c_secondary)
+    rgb_error = hex_to_rgb(c_error)
+    rgb_surface = hex_to_rgb(c_bg)
+    rgb_container = hex_to_rgb(c_bg_card)
+    rgb_high = hex_to_rgb(c_bg_high)
+    rgb_border = hex_to_rgb(c_border)
+    rgb_muted = hex_to_rgb(c_muted)
+    rgb_fg = hex_to_rgb(c_fg)
+
+    gpl_path = os.path.join(palettes_dir, "Matugen.gpl")
+    gpl_content = f"""GIMP Palette
+Name: Matugen Palette
+#
+{rgb_primary[0]:3d} {rgb_primary[1]:3d} {rgb_primary[2]:3d} Gold
+{rgb_tertiary[0]:3d} {rgb_tertiary[1]:3d} {rgb_tertiary[2]:3d} Sage
+{rgb_secondary[0]:3d} {rgb_secondary[1]:3d} {rgb_secondary[2]:3d} Beige
+{rgb_error[0]:3d} {rgb_error[1]:3d} {rgb_error[2]:3d} Coral
+{rgb_surface[0]:3d} {rgb_surface[1]:3d} {rgb_surface[2]:3d} Dark Surface
+{rgb_container[0]:3d} {rgb_container[1]:3d} {rgb_container[2]:3d} Card
+{rgb_high[0]:3d} {rgb_high[1]:3d} {rgb_high[2]:3d} Card High
+{rgb_border[0]:3d} {rgb_border[1]:3d} {rgb_border[2]:3d} Border
+{rgb_muted[0]:3d} {rgb_muted[1]:3d} {rgb_muted[2]:3d} Muted
+{rgb_fg[0]:3d} {rgb_fg[1]:3d} {rgb_fg[2]:3d} Cream
+255 255 255 White
+  0   0   0 Black
+"""
+    with open(gpl_path, "w") as f:
+        f.write(gpl_content)
+
+    # 2. Update xournalpp.css
+    css_path = os.path.join(ui_dir, "xournalpp.css")
+    css_content = f"""/* Matugen Theme for Xournal++ */
+
+/* Floating Toolbox */
+#floatingToolbox > box,
+#pdfFloatingToolGrid {{
+    background-color: {c_bg};
+    border: 1px solid {c_border};
+    border-radius: 10px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.6);
+    margin: 6px;
+    padding: 6px;
+}}
+
+#floatingToolbox box toolbar {{
+    background-color: transparent;
+}}
+
+#floatingToolbox button,
+#pdfFloatingToolGrid button {{
+    background-color: {c_bg_card};
+    color: {c_fg};
+    border: 1px solid {c_border};
+    border-radius: 6px;
+    margin: 2px;
+}}
+
+#floatingToolbox button:hover,
+#pdfFloatingToolGrid button:hover {{
+    background-color: {c_bg_high};
+    border-color: {c_muted};
+}}
+
+#floatingToolbox button:checked,
+#pdfFloatingToolGrid button:checked {{
+    background-color: {c_primary_container};
+    border-color: {c_primary};
+    box-shadow: 0px 0px 4px {c_primary};
+    color: {c_primary};
+}}
+
+/* Toolbars */
+toolbar {{
+    background-color: {c_bg};
+    border-color: {c_border};
+}}
+
+toolbar button {{
+    border-radius: 6px;
+    padding: 3px;
+}}
+
+toolbar button:hover {{
+    background-color: {c_bg_high};
+}}
+
+toolbar button:checked {{
+    background-color: rgba({rgb_primary[0]}, {rgb_primary[1]}, {rgb_primary[2]}, 0.25);
+    border-color: {c_primary};
+    box-shadow: inset 0px 0px 3px {c_primary};
+}}
+
+/* Dark mode overrides */
+window.darkMode #floatingToolbox > box,
+window.darkMode #pdfFloatingToolGrid {{
+    background-color: {c_bg};
+    border: 1px solid {c_border};
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.7);
+}}
+
+window.darkMode #floatingToolbox button,
+window.darkMode #pdfFloatingToolGrid button {{
+    background: {c_bg_card};
+    color: {c_fg};
+    border: 1px solid {c_border};
+}}
+
+window.darkMode #floatingToolbox button:hover,
+window.darkMode #pdfFloatingToolGrid button:hover {{
+    background: {c_bg_high};
+    border-color: {c_muted};
+}}
+
+window.darkMode #floatingToolbox button:checked,
+window.darkMode #pdfFloatingToolGrid button:checked {{
+    background: {c_primary_container};
+    border-color: {c_primary};
+    box-shadow: 0px 0px 4px {c_primary};
+    color: {c_primary};
+}}
+
+/* Sidebar styling */
+#sidebar {{
+    background-color: {c_bg_low};
+    border-right: 1px solid {c_border};
+}}
+
+/* Status / Settings */
+notebook frame > label {{
+    color: {c_primary};
+    font-weight: bold;
+}}
+"""
+    with open(css_path, "w") as f:
+        f.write(css_content)
+
+    # 3. Update settings.xml
+    settings_file = os.path.join(xopp_dir, "settings.xml")
+    if os.path.exists(settings_file):
+        tree = ET.parse(settings_file)
+        root = tree.getroot()
+
+        def set_xml_prop(name, val):
+            for prop in root.findall("property"):
+                if prop.get("name") == name:
+                    prop.set("value", str(val))
+                    return
+            p = ET.SubElement(root, "property")
+            p.set("name", name)
+            p.set("value", str(val))
+
+        set_xml_prop("themeVariant", "forceDark")
+        set_xml_prop("iconTheme", "iconsLucide")
+        set_xml_prop("backgroundColor", hex_to_uint(c_bg))
+        set_xml_prop("selectionBorderColor", hex_to_uint(c_primary))
+        set_xml_prop("activeSelectionColor", hex_to_uint(c_primary))
+        set_xml_prop("selectionMarkerColor", hex_to_uint(c_tertiary))
+        set_xml_prop("colorPalette", gpl_path)
+        set_xml_prop("recolor.dark", hex_to_uint(c_bg))
+        set_xml_prop("recolor.light", hex_to_uint(c_fg))
+
+        tree.write(settings_file, encoding="UTF-8", xml_declaration=True)
+    print("✓ Xournal++: Palette, CSS, and settings updated")
+except Exception as e:
+    print(f"✗ Xournal++ error: {e}")
+
 print("=== Synchronization Complete ===")

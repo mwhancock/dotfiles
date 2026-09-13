@@ -409,6 +409,44 @@ window-rule {
     clip-to-geometry true
 }
 
+// Touchscreen gesture configuration (enabled by niri-tablet)
+gestures {
+    // Show visual indicator dots during multi-finger gestures
+    show-touch-points "gestures"
+
+    // Multi-finger gestures
+    touchscreen-swipe {
+        // 3 fingers enables 1:1 animated vertical swipe to switch workspaces
+        // and horizontal swipe to move across columns.
+        fingers 3
+
+        // By default horizontal swipe scrolls the view ("move-view").
+        // Uncomment to resize the focused column width instead:
+        // horizontal-swipe "resize-column"
+
+        // Quick taps and flicks (fire on finger release):
+        tap          { maximize-column; }
+        tap-4        { toggle-overview; }
+        swipe-4-down { close-window; }
+        swipe-4-up   { fullscreen-window; }
+
+        // Press, hold ~400ms, then swipe: moves the active window
+        hold {
+            left  { move-column-left; }
+            right { move-column-right; }
+            up    { move-window-to-workspace-up; }
+            down  { move-window-to-workspace-down; }
+        }
+    }
+
+    // Single-finger swipes inward from the screen borders
+    touchscreen-edge-swipe {
+        top   { toggle-overview; }
+        left  { focus-column-left; }
+        right { focus-column-right; }
+    }
+}
+
 binds {
     // Keys consist of modifiers separated by + signs, followed by an XKB key name
     // in the end. To find an XKB name for a particular key, you may use a program
@@ -708,3 +746,5 @@ binds {
 spawn-at-startup "noctalia"
 
 include "noctalia.kdl"
+
+

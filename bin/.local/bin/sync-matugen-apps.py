@@ -9,6 +9,7 @@ import json
 import uuid
 import time
 import subprocess
+import re
 
 # 1. Resolve colors
 def get_matugen_colors():
@@ -65,6 +66,10 @@ def hex_to_rgb(hex_str):
 def hex_to_uint(hex_str, alpha=0xFF):
     r, g, b = hex_to_rgb(hex_str)
     return (alpha << 24) | (r << 16) | (g << 8) | b
+
+def hex_to_gsettings_rgba(hex_str, alpha=1.0):
+    r, g, b = hex_to_rgb(hex_str)
+    return f"({round(r / 255.0, 3)}, {round(g / 255.0, 3)}, {round(b / 255.0, 3)}, {alpha})"
 
 
 print("=== Synchronizing Matugen App Themes ===")
@@ -736,4 +741,367 @@ notebook frame > label {{
 except Exception as e:
     print(f"✗ Xournal++ error: {e}")
 
+# --- 10. Saber / KDE (kdeglobals) ---
+try:
+    kdeglobals_path = os.path.expanduser("~/.config/kdeglobals")
+    if os.path.exists(kdeglobals_path):
+        with open(kdeglobals_path, "r") as f:
+            kde_content = f.read()
+        r, g, b = hex_to_rgb(c_primary)
+        # Noctalia's kcolorscheme template erroneously sets [Colors:View] DecorationHover to on_primary (dark)
+        # Saber uses Colors:View -> DecorationHover as its theme accent seed
+        fixed_kde = re.sub(
+            r"(\[Colors:View\][\s\S]*?DecorationHover=)[0-9,]+",
+            rf"\g<1>{r},{g},{b}",
+            kde_content
+        )
+        fixed_kde = re.sub(
+            r"(\[Colors:View\][\s\S]*?DecorationFocus=)[0-9,]+",
+            rf"\g<1>{r},{g},{b}",
+            fixed_kde
+        )
+        if fixed_kde != kde_content:
+            with open(kdeglobals_path, "w") as f:
+                f.write(fixed_kde)
+        print("✓ Saber / KDE: Colors:View accent contrast synchronized")
+except Exception as e:
+    print(f"✗ Saber / KDE error: {e}")
+
+# --- 11. Rnote ---
+try:
+    # 1. Synchronize 9 quick colorpicker swatches with active Matugen palette
+    rnote_palette = [
+        c_primary,           # 1: Primary Accent (Gold)
+        c_secondary,         # 2: Secondary (Warm Sand)
+        c_tertiary,          # 3: Tertiary (Sage Green)
+        c_error,             # 4: Highlight / Error (Coral)
+        c_fg,                # 5: Foreground Text (Cream)
+        c_muted,             # 6: Outline / Muted (Warm Gray)
+        c_primary_container, # 7: Deep Container Accent
+        c_bg,                # 8: Dark Surface (Espresso)
+        "#ffffff",           # 9: Crisp White
+    ]
+    for i, hex_c in enumerate(rnote_palette, 1):
+        rgba_str = hex_to_gsettings_rgba(hex_c)
+        subprocess.run(["gsettings", "set", "com.github.flxzt.rnote", f"colorpicker-color-{i}", rgba_str], check=True)
+
+    # 2. Set active stroke color to Primary Accent
+    subprocess.run(["gsettings", "set", "com.github.flxzt.rnote", "active-stroke-color", hex_to_gsettings_rgba(c_primary)], check=True)
+
+    # 3. Configure drawing cursor (small dot), dark mode & disable buggy inertial scrolling
+    subprocess.run(["gsettings", "set", "com.github.flxzt.rnote", "drawing-cursor", "'cursor-dot-small'"], check=True)
+    subprocess.run(["gsettings", "set", "com.github.flxzt.rnote", "show-drawing-cursor", "true"], check=True)
+    subprocess.run(["gsettings", "set", "com.github.flxzt.rnote", "color-scheme", "'force-dark'"], check=True)
+    subprocess.run(["gsettings", "set", "com.github.flxzt.rnote", "inertial-scrolling", "false"], check=True)
+
+    # 4. Set eraser style to 'split_colliding_strokes' and disable palm touch eraser toggle
+    raw_cfg = subprocess.check_output(["gsettings", "get", "com.github.flxzt.rnote", "engine-config"]).decode().strip()
+    if raw_cfg.startswith("'") and raw_cfg.endswith("'"):
+        raw_cfg = raw_cfg[1:-1]
+    raw_cfg = raw_cfg.replace("''", "'")
+    cfg = json.loads(raw_cfg)
+    changed = False
+    if "pens_config" in cfg:
+        if "eraser_config" in cfg["pens_config"]:
+            if cfg["pens_config"]["eraser_config"].get("style") != "split_colliding_strokes":
+                cfg["pens_config"]["eraser_config"]["style"] = "split_colliding_strokes"
+                changed = True
+        if "shortcuts" in cfg["pens_config"]:
+            t2f = cfg["pens_config"]["shortcuts"].get("touch_two_finger_long_press", {}).get("change_pen_style", {})
+            if t2f.get("mode") != "disabled":
+                t2f["mode"] = "disabled"
+                changed = True
+    if changed:
+        new_raw = json.dumps(cfg)
+        subprocess.run(["gsettings", "set", "com.github.flxzt.rnote", "engine-config", new_raw], check=True)
+
+    print("✓ Rnote: Theme, palette swatches, dot cursor, split eraser, and gesture stability synchronized")
+except Exception as e:
+    print(f"✗ Rnote error: {e}")
+
+# --- 12. Hydra Launcher ---
+try:
+    hydra_theme_dir = os.path.expanduser("~/dotfiles/hydralauncher/.config/hydralauncher/themes/matugen")
+    os.makedirs(hydra_theme_dir, exist_ok=True)
+    hydra_css_path = os.path.join(hydra_theme_dir, "theme.css")
+
+    pr_r, pr_g, pr_b = hex_to_rgb(c_primary)
+    bg_r, bg_g, bg_b = hex_to_rgb(c_bg_card)
+
+    hydra_css = f"""/*
+ * Matugen Dark Theme for Hydra Launcher
+ * Automatically generated by sync-matugen-apps.py
+ */
+
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap');
+
+:root {{
+    --matugen-bg: {c_bg};
+    --matugen-bg-low: {c_bg_low};
+    --matugen-bg-card: {c_bg_card};
+    --matugen-bg-high: {c_bg_high};
+    --matugen-bg-highest: {c_bg_highest};
+    --matugen-fg: {c_fg};
+    --matugen-muted: {c_muted};
+    --matugen-border: {c_border};
+    --matugen-primary: {c_primary};
+    --matugen-primary-container: {c_primary_container};
+    --matugen-on-primary: #412d00;
+    --matugen-secondary: {c_secondary};
+    --matugen-tertiary: {c_tertiary};
+    --matugen-error: {c_error};
+}}
+
+body {{
+    background-color: {c_bg} !important;
+    color: {c_fg} !important;
+    font-family: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif !important;
+}}
+
+#root {{
+    background-color: {c_bg} !important;
+    color: {c_fg} !important;
+}}
+
+/* Top Header & Search */
+.header,
+.title-bar {{
+    background-color: {c_bg_low} !important;
+    border-bottom: 1px solid {c_border} !important;
+    color: {c_fg} !important;
+}}
+
+.header__search,
+.text-field-container__text-field,
+.text-field-container__text-field--dark,
+.text-field-container__text-field--primary {{
+    background-color: {c_bg} !important;
+    color: {c_fg} !important;
+    border: 1px solid {c_border} !important;
+    border-radius: 8px !important;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease !important;
+}}
+
+.header__search:focus-within,
+.text-field-container__text-field:focus,
+.text-field-container__text-field--focused {{
+    border-color: {c_primary} !important;
+    box-shadow: 0 0 0 2px rgba({pr_r}, {pr_g}, {pr_b}, 0.25) !important;
+}}
+
+/* Sidebar Navigation */
+.sidebar {{
+    background-color: {c_bg_low} !important;
+    border-right: 1px solid {c_border} !important;
+}}
+
+.sidebar__item {{
+    color: {c_muted} !important;
+    border-radius: 8px !important;
+    transition: all 0.2s ease !important;
+}}
+
+.sidebar__item:hover {{
+    color: {c_fg} !important;
+    background-color: {c_bg_card} !important;
+}}
+
+.sidebar__item--active {{
+    color: {c_primary} !important;
+    background-color: {c_bg_card} !important;
+    border-left: 3px solid {c_primary} !important;
+}}
+
+/* Content Area & Cards */
+.container__content,
+.catalogue,
+.catalogue__content {{
+    background-color: transparent !important;
+}}
+
+.game-item,
+.game-card,
+.friends-box__box,
+.user-stats__box,
+.recent-games__box,
+.catalogue__filters-container,
+.filter-item,
+.profile-hero__content-box,
+.profile-hero__hero-panel {{
+    background-color: {c_bg_card} !important;
+    border: 1px solid {c_border} !important;
+    border-radius: 10px !important;
+    color: {c_fg} !important;
+    transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease !important;
+}}
+
+.game-item:hover,
+.game-card:hover {{
+    transform: translateY(-3px) scale(1.01) !important;
+    border-color: {c_primary} !important;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.45), 0 0 12px rgba({pr_r}, {pr_g}, {pr_b}, 0.2) !important;
+}}
+
+.game-card__content {{
+    background: linear-gradient(to top, {c_bg_card} 0%, rgba({bg_r}, {bg_g}, {bg_b}, 0.8) 60%, transparent 100%) !important;
+}}
+
+.game-details__wrapper,
+.game-details__description-container {{
+    background-color: {c_bg_card} !important;
+    border: 1px solid {c_border} !important;
+    border-radius: 12px !important;
+    color: {c_fg} !important;
+}}
+
+/* Buttons */
+.button,
+.button--primary {{
+    background-color: {c_primary} !important;
+    color: #412d00 !important;
+    font-weight: 600 !important;
+    border: none !important;
+    border-radius: 8px !important;
+    transition: all 0.2s ease !important;
+}}
+
+.button:hover:not(:disabled),
+.button--primary:hover:not(:disabled) {{
+    background-color: {c_secondary} !important;
+    transform: translateY(-1px) !important;
+    box-shadow: 0 4px 12px rgba({pr_r}, {pr_g}, {pr_b}, 0.3) !important;
+}}
+
+.button--outline {{
+    background: transparent !important;
+    border: 1px solid {c_primary} !important;
+    color: {c_primary} !important;
+    border-radius: 8px !important;
+}}
+
+.button--outline:hover:not(:disabled) {{
+    background-color: rgba({pr_r}, {pr_g}, {pr_b}, 0.15) !important;
+}}
+
+.button:disabled,
+.button[disabled] {{
+    background-color: {c_border} !important;
+    color: {c_muted} !important;
+    cursor: not-allowed !important;
+    box-shadow: none !important;
+}}
+
+/* Badges & Tags */
+.badge {{
+    background-color: {c_primary_container} !important;
+    color: {c_primary} !important;
+    border-radius: 6px !important;
+    border: 1px solid {c_primary} !important;
+}}
+
+/* Settings */
+.settings__content,
+.settings-download-sources__item,
+.download-group__item,
+.theme-card {{
+    background-color: {c_bg_card} !important;
+    border: 1px solid {c_border} !important;
+    border-radius: 10px !important;
+    color: {c_fg} !important;
+}}
+
+.select-field--primary {{
+    background-color: {c_bg} !important;
+    border: 1px solid {c_border} !important;
+    color: {c_fg} !important;
+}}
+
+.select-field__option {{
+    background-color: {c_bg_card} !important;
+    color: {c_fg} !important;
+}}
+
+/* Bottom Panel */
+.bottom-panel {{
+    background-color: {c_bg_low} !important;
+    border-top: 1px solid {c_border} !important;
+    color: {c_fg} !important;
+}}
+
+.bottom-panel__version-button,
+.bottom-panel__downloads-button {{
+    color: {c_primary} !important;
+    transition: color 0.2s ease !important;
+}}
+
+.bottom-panel__version-button:hover,
+.bottom-panel__downloads-button:hover {{
+    color: {c_secondary} !important;
+}}
+
+/* Modals & Dialogs */
+.modal {{
+    background-color: {c_bg_card} !important;
+    border: 1px solid {c_border} !important;
+    border-radius: 12px !important;
+    color: {c_fg} !important;
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6) !important;
+}}
+
+.modal__header {{
+    background-color: {c_bg_low} !important;
+    border-bottom: 1px solid {c_border} !important;
+}}
+
+.modal__close-button-icon {{
+    color: {c_muted} !important;
+}}
+
+.modal__close-button-icon:hover {{
+    color: {c_error} !important;
+}}
+
+/* Toasts & Notifications */
+.toast,
+[data-sonner-toast],
+.Toastify__toast {{
+    background-color: {c_bg_card} !important;
+    border: 1px solid {c_border} !important;
+    border-left: 4px solid {c_primary} !important;
+    color: {c_fg} !important;
+    border-radius: 8px !important;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5) !important;
+}}
+
+/* Custom Scrollbars */
+::-webkit-scrollbar {{
+    width: 8px;
+    height: 8px;
+    background-color: {c_bg};
+}}
+
+::-webkit-scrollbar-thumb {{
+    background-color: {c_border};
+    border-radius: 4px;
+}}
+
+::-webkit-scrollbar-thumb:hover {{
+    background-color: {c_muted};
+}}
+"""
+    with open(hydra_css_path, "w") as f:
+        f.write(hydra_css)
+
+    # Apply to LevelDB database via helper
+    helper_script = os.path.expanduser("~/.local/share/hydra-theme-helper/apply-theme.mjs")
+    if os.path.exists(helper_script):
+        res = subprocess.run(["node", helper_script, hydra_css_path], capture_output=True, text=True)
+        if res.stdout:
+            for line in res.stdout.strip().splitlines():
+                print(f"  {line}")
+    print("✓ Hydra Launcher: Matugen Dark theme CSS generated and synchronized")
+except Exception as e:
+    print(f"✗ Hydra Launcher error: {e}")
+
 print("=== Synchronization Complete ===")
+

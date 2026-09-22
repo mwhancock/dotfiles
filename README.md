@@ -1,2 +1,2 @@
 # dotfles
-My CachyOS dotfiles
+My Arch dotfiles

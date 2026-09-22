@@ -9,6 +9,7 @@ return {
   config = function()
     require("platformio").setup({
       lsp = "clangd",
+      clangd_source = "compiledb",
     })
   end,
 }

@@ -102,3 +102,41 @@ end
 vim.keymap.set("n", "<leader>ch", open_formatting_cheatsheet, { desc = "Formatting Cheatsheet (Float)" })
 vim.keymap.set("n", "<leader>?", open_formatting_cheatsheet, { desc = "Formatting Cheatsheet (Float)" })
 
+local function open_keybindings_cheatsheet()
+  local path = vim.fn.expand("~/.config/nvim/keybindings_cheatsheet.md")
+  local buf = vim.fn.bufnr(path, false)
+  if buf == -1 then
+    buf = vim.fn.bufadd(path)
+  end
+  vim.fn.bufload(buf)
+
+  local width = math.min(125, math.floor(vim.o.columns * 0.85))
+  local height = math.min(42, math.floor(vim.o.lines * 0.85))
+  local row = math.max(1, math.floor((vim.o.lines - height) / 2))
+  local col = math.max(1, math.floor((vim.o.columns - width) / 2))
+
+  local win = vim.api.nvim_open_win(buf, true, {
+    relative = "editor",
+    width = width,
+    height = height,
+    row = row,
+    col = col,
+    style = "minimal",
+    border = "rounded",
+    title = " 󰌌 Keybindings Cheatsheet (Noctalia / Niri / Custom) — Press 'q' to close ",
+    title_pos = "center",
+  })
+
+  vim.bo[buf].modifiable = false
+  local close_win = function()
+    if vim.api.nvim_win_is_valid(win) then
+      vim.api.nvim_win_close(win, true)
+    end
+  end
+
+  vim.keymap.set("n", "q", close_win, { buffer = buf, nowait = true, silent = true })
+  vim.keymap.set("n", "<Esc>", close_win, { buffer = buf, nowait = true, silent = true })
+end
+
+vim.keymap.set("n", "<leader>kb", open_keybindings_cheatsheet, { desc = "Keybindings Cheatsheet (Float)" })
+

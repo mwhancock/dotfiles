@@ -87,3 +87,6 @@ end
 set -gx PATH "/home/mark/.local/bin" $PATH
 set -gx TERMINAL ghostty
 set -gx EDITOR nvim
+
+# opencode
+fish_add_path /home/mark/.opencode/bin

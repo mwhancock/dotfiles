@@ -11,3 +11,6 @@ theme = noctalia
 
 confirm-close-surface = false
 command = /usr/bin/fish
+
+# Touchscreen and trackpad scroll tuning (discrete:1 stops multi-line paging jumps)
+mouse-scroll-multiplier = precision:0.5,discrete:1

@@ -24,10 +24,17 @@ media = [
 browser = [
     { run = 'firefox %s', desc = "Firefox Browser", orphan = true, for = "unix" },
 ]
+rnote = [
+    { run = 'rnote %s', desc = "Rnote", orphan = true, for = "unix" },
+]
 
 
 [open]
 prepend_rules = [
+    # Notes
+    { url = "*.rnote", use = [ "rnote", "open" ] },
+    { mime = "application/rnote", use = [ "rnote", "open" ] },
+
     # PDFs, EPUBs, and Comics
     { url = "*.pdf", use = [ "pdf", "open" ] },
     { url = "*.epub", use = [ "pdf", "open" ] },

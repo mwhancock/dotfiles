@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+# Standalone floating keybindings cheatsheet viewer in Ghostty + Neovim
+# Follows Matugen theme automatically via Ghostty and Neovim noctalia themes.
+
+exec ghostty \
+  --title="Keybindings Cheatsheet" \
+  --window-height=42 \
+  --window-width=125 \
+  -e nvim -R \
+    -c "set nonumber norelativenumber signcolumn=no wrap" \
+    -c "nnoremap q :qa!<CR>" \
+    -c "nnoremap <Esc> :qa!<CR>" \
+    "/home/mark/.config/nvim/keybindings_cheatsheet.md"

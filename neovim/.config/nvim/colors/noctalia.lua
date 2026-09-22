@@ -49,6 +49,7 @@ local red = "#ea6962"
 local blue = "#7daea3"
 local aqua = "#89b482"
 local yellow = "#d8a657"
+local purple = "#d3869b"
 
 -- Core Neovim UI: transparent backgrounds to preserve Ghostty opacity & blur
 hl("Normal", { fg = fg0, bg = "NONE" })
@@ -98,3 +99,109 @@ hl("DiagnosticHint", { fg = aqua })
 -- Minimap
 hl("NeominimapCurrentLine", { bg = bg2 })
 hl("NeominimapBorder", { fg = fg_dim })
+
+-- ============================================================================
+-- Complete Syntax & Treesitter Highlighting (Noctalia / Gruvbox-Material Palette)
+-- ============================================================================
+
+-- Comments
+hl("Comment", { fg = fg_dim, italic = true })
+hl("@comment", { link = "Comment" })
+hl("@comment.documentation", { fg = fg_dim, italic = true })
+
+-- Keywords & Control flow
+hl("Keyword", { fg = red })
+hl("@keyword", { fg = red })
+hl("@keyword.coroutine", { fg = red })
+hl("@keyword.function", { fg = red })
+hl("@keyword.operator", { fg = orange })
+hl("@keyword.return", { fg = red })
+hl("@keyword.conditional", { fg = red })
+hl("@keyword.repeat", { fg = red })
+hl("@keyword.exception", { fg = red })
+
+-- Types & classes
+hl("Type", { fg = yellow })
+hl("@type", { fg = yellow })
+hl("@type.builtin", { fg = yellow, italic = true })
+hl("@type.definition", { fg = yellow })
+hl("@type.qualifier", { fg = orange })
+hl("@keyword.type", { fg = orange })
+hl("@keyword.modifier", { fg = orange })
+hl("StorageClass", { fg = orange })
+hl("Structure", { fg = orange })
+hl("Typedef", { fg = yellow })
+
+-- Functions & methods
+hl("Function", { fg = green })
+hl("@function", { fg = green })
+hl("@function.call", { fg = green })
+hl("@function.method", { fg = green })
+hl("@function.method.call", { fg = green })
+hl("@function.builtin", { fg = green })
+hl("@function.macro", { fg = purple })
+
+-- Identifiers & variables
+hl("Identifier", { fg = fg0 })
+hl("@variable", { fg = fg0 })
+hl("@variable.builtin", { fg = red })
+hl("@variable.parameter", { fg = fg0 })
+hl("@variable.member", { fg = fg0 })
+hl("@property", { fg = fg0 })
+
+-- Constants, numbers, booleans
+hl("Constant", { fg = purple })
+hl("@constant", { fg = purple })
+hl("@constant.builtin", { fg = purple })
+hl("@constant.macro", { fg = purple })
+hl("Number", { fg = purple })
+hl("@number", { fg = purple })
+hl("@number.float", { fg = purple })
+hl("Boolean", { fg = purple })
+hl("@boolean", { fg = purple })
+
+-- Strings & Characters
+hl("String", { fg = aqua })
+hl("@string", { fg = aqua })
+hl("@string.escape", { fg = orange })
+hl("@string.regex", { fg = orange })
+hl("Character", { fg = aqua })
+
+-- Preprocessor directives (#include, #define, #ifdef, etc.)
+hl("PreProc", { fg = purple })
+hl("@keyword.import", { fg = purple })
+hl("@keyword.directive", { fg = purple })
+hl("@keyword.directive.define", { fg = purple })
+hl("Include", { fg = purple })
+hl("Define", { fg = purple })
+hl("Macro", { fg = purple })
+
+-- Operators & Punctuation
+hl("Operator", { fg = orange })
+hl("@operator", { fg = orange })
+hl("@punctuation.delimiter", { fg = fg_dim })
+hl("@punctuation.bracket", { fg = fg0 })
+hl("@punctuation.special", { fg = orange })
+
+-- ============================================================================
+-- LSP Semantic Token Bindings
+-- ============================================================================
+hl("@lsp.type.class", { link = "@type" })
+hl("@lsp.type.struct", { link = "@type" })
+hl("@lsp.type.enum", { link = "@type" })
+hl("@lsp.type.type", { link = "@type" })
+hl("@lsp.type.typeParameter", { link = "@type" })
+hl("@lsp.type.function", { link = "@function" })
+hl("@lsp.type.method", { link = "@function.method" })
+hl("@lsp.type.macro", { link = "@constant.macro" })
+hl("@lsp.type.enumMember", { link = "@constant" })
+hl("@lsp.type.property", { link = "@property" })
+hl("@lsp.type.variable", { link = "@variable" })
+hl("@lsp.type.parameter", { link = "@variable.parameter" })
+hl("@lsp.type.namespace", { fg = blue })
+hl("@lsp.type.modifier", { link = "@keyword.modifier" })
+
+-- Clear LSP comment token so inactive #ifdef code doesn't get grayed out into an unreadable monochrome blob
+hl("@lsp.type.comment", {})
+hl("@lsp.type.comment.c", {})
+hl("@lsp.type.comment.cpp", {})

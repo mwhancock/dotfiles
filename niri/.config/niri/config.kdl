@@ -70,7 +70,10 @@ input {
 
     tablet {
         map-to-output "eDP-1"
+        calibration-matrix 1.0 0.0 0.0 0.0 1.0 -0.0053
     }
+
+    disable-power-key-handling
 
     // Focus windows and outputs automatically when moving the mouse into them.
     // Setting max-scroll-amount="0%" makes it work only on windows already fully on screen.
@@ -280,7 +283,7 @@ layout {
 // See the binds section below for more spawn examples.
 
 // This line starts waybar, a commonly used bar for Wayland compositors.
-
+// sysboard is managed as a systemd user service (sysboard.service)
 // To run a shell command (with variables, pipes, etc.), use spawn-sh-at-startup:
 // spawn-sh-at-startup "qs -c ~/source/qs/MyAwesomeShell"
 
@@ -384,6 +387,14 @@ window-rule {
     default-column-width { proportion 0.70; }
 }
 
+// Keybindings cheatsheet floating window (centered)
+window-rule {
+    match title="^Keybindings Cheatsheet$"
+    open-floating true
+    default-column-width { proportion 0.72; }
+    default-window-height { proportion 0.82; }
+}
+
 // SoundCloud PWA: adjusted for dark theme (0.80 active, 0.70 inactive)
 window-rule {
     match app-id=r#"SoundCloud"# is-active=true
@@ -434,7 +445,7 @@ gestures {
 
         // Quick taps and flicks (fire on finger release):
         tap          { maximize-column; }
-        tap-4        { toggle-overview; }
+        tap-4        { spawn-sh "noctalia msg panel-toggle launcher"; }
         swipe-4-down { close-window; }
         swipe-4-up   { fullscreen-window; }
 
@@ -477,12 +488,16 @@ binds {
     Mod+B hotkey-overlay-title="Launch Web Browser: Firefox" { spawn "firefox"; }
     Mod+E hotkey-overlay-title="File Manager: Yazi" { spawn "ghostty" "-e" "yazi"; }
     Mod+Shift+C hotkey-overlay-title="Formatting Cheatsheet" { spawn "/home/mark/.local/bin/cheatsheet-float"; }
+    Mod+Slash hotkey-overlay-title="Keybindings Cheatsheet" { spawn "/home/mark/.local/bin/keybinds-float"; }
+    Mod+F1 hotkey-overlay-title="Keybindings Cheatsheet" { spawn "/home/mark/.local/bin/keybinds-float"; }
     Ctrl+Shift+G hotkey-overlay-title="Package Manager: Gopac" { spawn "ghostty" "-e" "gopac"; }
     Ctrl+Shift+B hotkey-overlay-title="Package Manager: bptui" { spawn "ghostty" "-e" "/home/mark/.local/bin/bptui"; }
     Ctrl+Shift+M hotkey-overlay-title="Email Client: Matcha" { spawn "ghostty" "-e" "matcha"; }
+    Ctrl+Shift+J hotkey-overlay-title="Media: Jellyfin TUI" { spawn "ghostty" "-e" "jellyfin-tui"; }
     Super+Alt+L hotkey-overlay-title="Lock the Screen: swaylock" { spawn "swaylock"; }
     Mod+Alt+R hotkey-overlay-title="Toggle Auto-Rotate Lock" { spawn "/home/mark/.local/bin/niri-rotate-toggle.sh"; }
     XF86RotationLockToggle allow-when-locked=true hotkey-overlay-title="Toggle Auto-Rotate Lock" { spawn "/home/mark/.local/bin/niri-rotate-toggle.sh"; }
+    Mod+Alt+K hotkey-overlay-title="Toggle On-Screen Keyboard" { spawn "/home/mark/.local/bin/toggle-osk"; }
 
     // Use spawn-sh to run a shell command. Do this if you need pipes, multiple commands, etc.
     // Note: the entire command goes as a single argument. It's passed verbatim to `sh -c`.
@@ -505,11 +520,9 @@ binds {
     XF86AudioPrev        allow-when-locked=true { spawn-sh "playerctl previous"; }
     XF86AudioNext        allow-when-locked=true { spawn-sh "playerctl next"; }
 
-    // Example brightness key mappings for brightnessctl.
-    // You can use regular spawn with multiple arguments too (to avoid going through "sh"),
-    // but you need to manually put each argument in separate "" quotes.
-    XF86MonBrightnessUp allow-when-locked=true { spawn "brightnessctl" "--class=backlight" "set" "+10%"; }
-    XF86MonBrightnessDown allow-when-locked=true { spawn "brightnessctl" "--class=backlight" "set" "10%-"; }
+    // Brightness key mappings using Noctalia IPC (targets the currently focused monitor).
+    XF86MonBrightnessUp allow-when-locked=true { spawn "noctalia" "msg" "brightness-up" "10%"; }
+    XF86MonBrightnessDown allow-when-locked=true { spawn "noctalia" "msg" "brightness-down" "10%"; }
 
     // Open/close the Overview: a zoomed-out view of workspaces and windows.
     // You can also move the mouse into the top-left hot corner,

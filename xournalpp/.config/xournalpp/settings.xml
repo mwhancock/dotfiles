@@ -3,9 +3,9 @@
   <property name="pressureSensitivity" value="true" />
   <property name="minimumPressure" value="0.05" />
   <property name="pressureMultiplier" value="1" />
-  <property name="zoomGesturesEnabled" value="true" />
+  <property name="zoomGesturesEnabled" value="false" />
   <property name="selectedToolbar" value="Portrait" />
-  <property name="lastSavePath" value="" />
+  <property name="lastSavePath" value="/home/mark/Nextcloud/Documents/School/2026 - Fall/Active Circuits" />
   <property name="lastOpenPath" value="/home/mark/Downloads" />
   <property name="lastImagePath" value="" />
   <property name="edgePanSpeed" value="20" />
@@ -13,12 +13,12 @@
   <property name="zoomStep" value="10" />
   <property name="zoomStepScroll" value="2" />
   <property name="displayDpi" value="-1" />
-  <property name="mainWndWidth" value="829" />
+  <property name="mainWndWidth" value="1675" />
   <property name="mainWndHeight" value="993" />
   <property name="maximized" value="false" />
   <property name="showToolbar" value="true" />
-  <property name="showSidebar" value="true" />
-  <property name="sidebarWidth" value="150" />
+  <property name="showSidebar" value="false" />
+  <property name="sidebarWidth" value="50" />
   <property name="sidebarNumberingStyle" value="1" />
   <property name="sidebarOnRight" value="false" />
   <property name="scrollbarOnLeft" value="false" />
@@ -34,14 +34,14 @@
   <property name="layoutBottomToTop" value="false" />
   <property name="numPairsOffset" value="1" />
   
-  <property name="emptyLastPageAppend" value="disabled" />
+  <property name="emptyLastPageAppend" value="onScrollOfLastPage" />
   <property name="presentationMode" value="false" />
   
-  <property name="defaultViewModeAttributes" value="showMenubar,showToolbar,showSidebar" />
+  <property name="defaultViewModeAttributes" value="showMenubar,showToolbar" />
   
-  <property name="fullscreenViewModeAttributes" value="goFullscren,showToolbar,showSidebar" />
+  <property name="fullscreenViewModeAttributes" value="goFullscren,showToolbar" />
   
-  <property name="presentationViewModeAttributes" value="goFullscren,showToolbar" />
+  <property name="presentationViewModeAttributes" value="goFullscren" />
   
   <property name="stylusCursorType" value="dot" />
   
@@ -53,13 +53,13 @@
   <property name="highlightPosition" value="false" />
   <property name="cursorHighlightColor" value="2164260608" />
   <property name="cursorHighlightBorderColor" value="2147483903" />
-  <property name="cursorHighlightRadius" value="30" />
+  <property name="cursorHighlightRadius" value="5" />
   <property name="cursorHighlightBorderWidth" value="0" />
   <property name="useStockIcons" value="false" />
   <property name="disableScrollbarFadeout" value="false" />
   <property name="disableAudio" value="false" />
   
-  <property name="scrollbarHideType" value="none" />
+  <property name="scrollbarHideType" value="both" />
   <property name="autoloadMostRecent" value="false" />
   <property name="autoloadPdfXoj" value="true" />
   <property name="defaultSaveName" value="%F-Note-%H-%M" />
@@ -83,7 +83,7 @@
   <property name="strokeRecognizerMinSize" value="40" />
   <property name="touchDrawing" value="false" />
   <property name="gtkTouchInertialScrolling" value="true" />
-  <property name="pressureGuessing" value="false" />
+  <property name="pressureGuessing" value="true" />
   <property name="recolor.enabled" value="false" />
   <property name="recolor.sidebar" value="false" />
   <property name="recolor.dark" value="4279702283" />
@@ -120,7 +120,7 @@
   <property name="restoreLineWidthEnabled" value="false" />
   <property name="numIgnoredStylusEvents" value="0" />
   <property name="inputSystemTPCButton" value="false" />
-  <property name="inputSystemDrawOutsideWindow" value="true" />
+  <property name="inputSystemDrawOutsideWindow" value="false" />
   <property name="preferredLocale" value="" />
   <property name="useSpacesForTab" value="false" />
   <property name="numberOfSpacesForTab" value="4" />
@@ -139,7 +139,7 @@
   <property name="latexSettings.defaultText" value="x^2" />
   <property name="latexSettings.globalTemplatePath" value="/usr/share/xournalpp/resources/default_template.tex" />
   <property name="latexSettings.genCmd" value="pdflatex -halt-on-error -interaction=nonstopmode '{}'" />
-  <property name="latexSettings.sourceViewThemeId" value="" />
+  <property name="latexSettings.sourceViewThemeId" value="classic" />
   <property name="latexSettings.editorFont" value="Monospace 12" />
   <property name="latexSettings.useCustomEditorFont" value="false" />
   <property name="latexSettings.editorWordWrap" value="true" />
@@ -180,13 +180,37 @@
       <attribute name="tool" type="string" value="none" />
     </data>
     <data name="touch">
-      <attribute name="device" type="string" value="" />
+      <attribute name="color" type="hex" value="ff000000" />
+      <attribute name="device" type="string" value="PNP0C50:00 222A:550D Stylus" />
       <attribute name="disableDrawing" type="boolean" value="false" />
-      <attribute name="tool" type="string" value="none" />
+      <attribute name="drawingType" type="string" value="default" />
+      <attribute name="size" type="string" value="none" />
+      <attribute name="strokeType" type="string" value="standard" />
+      <attribute name="tool" type="string" value="pen" />
     </data>
   </data>
   <data name="deviceClasses">
+    <data name="">
+      <attribute name="deviceClass" type="int" value="0" />
+      <attribute name="deviceSource" type="int" value="0" />
+    </data>
+    <data name="PNP0C50:00 222A:550D Stylus">
+      <attribute name="deviceClass" type="int" value="2" />
+      <attribute name="deviceSource" type="int" value="1" />
+    </data>
+    <data name="PNP0C50:00 222A:550D Stylus (Eraser)">
+      <attribute name="deviceClass" type="int" value="3" />
+      <attribute name="deviceSource" type="int" value="2" />
+    </data>
     <data name="Wayland Pointer">
+      <attribute name="deviceClass" type="int" value="1" />
+      <attribute name="deviceSource" type="int" value="0" />
+    </data>
+    <data name="Wayland Touch">
+      <attribute name="deviceClass" type="int" value="4" />
+      <attribute name="deviceSource" type="int" value="5" />
+    </data>
+    <data name="Wayland Wheel Scrolling">
       <attribute name="deviceClass" type="int" value="1" />
       <attribute name="deviceSource" type="int" value="0" />
     </data>
@@ -221,8 +245,8 @@
       <attribute name="size" type="string" value="MEDIUM" />
     </data>
     <data name="pen">
-      <attribute name="color" type="hex" value="ff3333cc" />
-      <attribute name="drawingType" type="string" value="default" />
+      <attribute name="color" type="hex" value="ff17130b" />
+      <attribute name="drawingType" type="string" value="strokeRecognizer" />
       <attribute name="fill" type="int" value="0" />
       <attribute name="fillAlpha" type="int" value="128" />
       <attribute name="size" type="string" value="MEDIUM" />
@@ -246,5 +270,11 @@
     </data>
     <data name="verticalSpace" />
   </data>
-  <data name="touch" />
+  <data name="touch">
+    <attribute name="cmdDisable" type="string" value="" />
+    <attribute name="cmdEnable" type="string" value="" />
+    <attribute name="disableTouch" type="boolean" value="true" />
+    <attribute name="method" type="string" value="auto" />
+    <attribute name="timeout" type="int" value="1000" />
+  </data>
 </settings>

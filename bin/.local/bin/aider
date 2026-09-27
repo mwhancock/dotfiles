@@ -1,0 +1,98 @@
+#!/home/mark/.local/share/uv/tools/aider-chat/bin/python
+# -*- coding: utf-8 -*-
+import sys
+import os
+
+# Custom Matugen Header for Aider
+try:
+    from aider.io import InputOutput
+    from aider.coders.base_coder import Coder
+    from rich.console import Console
+    from rich.panel import Panel
+    from rich.text import Text
+    from rich.table import Table
+    from rich import box
+
+    # Suppress the plain horizontal line at startup so the big logo header shines
+    _first_rule = True
+    _orig_rule = InputOutput.rule
+
+    def _suppress_first_rule(self, *args, **kwargs):
+        global _first_rule
+        if _first_rule:
+            _first_rule = False
+            return
+        return _orig_rule(self, *args, **kwargs)
+
+    InputOutput.rule = _suppress_first_rule
+
+    _orig_show_announcements = Coder.show_announcements
+
+    def _matugen_show_announcements(self):
+        lines = self.get_announcements()
+
+        c_primary = getattr(self.io, "user_input_color", None) or "#e7c26c"
+        c_secondary = "#d9c4a0"
+        c_tertiary = "#b2cfa7"
+        c_fg = getattr(self.io, "assistant_output_color", None) or "#eae1d4"
+        c_muted = getattr(self.io, "tool_output_color", None) or "#9a8f80"
+
+        logo = """  █████╗ ██╗██████╗ ███████╗██████╗ 
+ ██╔══██╗██║██╔══██╗██╔════╝██╔══██╗
+ ███████║██║██║  ██║█████╗  ██████╔╝
+ ██╔══██║██║██║  ██║██╔══╝  ██╔══██╗
+ ██║  ██║██║██████╔╝███████╗██║  ██║
+ ╚═╝  ╚═╝╚═╝╚═════╝ ╚══════╝╚═╝  ╚═╝"""
+
+        content = Table.grid(padding=(0, 0))
+        content.add_column(justify="center")
+
+        logo_text = Text(logo, style=f"bold {c_primary}")
+        content.add_row(logo_text)
+        content.add_row(Text(""))
+        content.add_row(Text("AI Pair Programming in your Terminal  •  Matugen Edition", style=f"italic {c_secondary}"))
+        content.add_row(Text(""))
+
+        info_table = Table.grid(padding=(0, 2))
+        info_table.add_column(style=f"bold {c_secondary}", justify="right")
+        info_table.add_column(style=f"{c_fg}", justify="left")
+
+        for line in lines:
+            if ":" in line:
+                k, v = line.split(":", 1)
+                k = k.strip()
+                v = v.strip()
+                if "model" in k.lower():
+                    info_table.add_row(f"{k}:", f"[{c_primary}]{v}[/]")
+                else:
+                    info_table.add_row(f"{k}:", v)
+            else:
+                info_table.add_row("Version:", f"[{c_fg}]{line}[/]")
+
+        info_table.add_row("Theme:", f"[{c_tertiary}]Matugen Dark[/] ([{c_primary}]Gold[/] & [{c_secondary}]Charcoal[/])")
+
+        content.add_row(info_table)
+
+        panel = Panel(
+            content,
+            border_style=c_primary,
+            box=box.ROUNDED,
+            padding=(1, 3),
+            subtitle=f"[{c_muted}]type [bold {c_primary}]/help[/] for commands, [bold {c_primary}]/exit[/] to quit[/{c_muted}]",
+            subtitle_align="right",
+        )
+
+        self.io.console.print(panel)
+
+    Coder.show_announcements = _matugen_show_announcements
+except Exception:
+    pass
+
+from aider.main import main
+
+if __name__ == "__main__":
+    if sys.argv[0].endswith("-script.pyw"):
+        sys.argv[0] = sys.argv[0][:-11]
+    elif sys.argv[0].endswith(".exe"):
+        sys.argv[0] = sys.argv[0][:-4]
+    sys.exit(main())

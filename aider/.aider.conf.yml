@@ -1,0 +1,17 @@
+# Aider configuration for local Qwen models via Ollama
+model: ollama_chat/qwen2.5-coder:7b
+stream: true
+show-model-warnings: false
+auto-commits: true
+
+# Matugen Theme Configuration
+code-theme: matugen
+user-input-color: "#e7c26c"
+assistant-output-color: "#eae1d4"
+tool-output-color: "#999080"
+tool-error-color: "#ffb4ab"
+tool-warning-color: "#e7c26c"
+completion-menu-color: "#eae1d4"
+completion-menu-bg-color: "#231f17"
+completion-menu-current-color: "#e7c26c"
+completion-menu-current-bg-color: "#412d00"

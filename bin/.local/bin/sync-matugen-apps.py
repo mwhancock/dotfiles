@@ -1103,5 +1103,155 @@ body {{
 except Exception as e:
     print(f"✗ Hydra Launcher error: {e}")
 
+# --- 13. Aider ---
+try:
+    aider_dotfiles_dir = os.path.expanduser("~/dotfiles/aider")
+    aider_config_dir = os.path.join(aider_dotfiles_dir, ".config/aider")
+    os.makedirs(aider_config_dir, exist_ok=True)
+
+    # 1. Update ~/.aider.conf.yml
+    conf_path = os.path.join(aider_dotfiles_dir, ".aider.conf.yml")
+    conf_content = f"""# Aider configuration for local Qwen models via Ollama
+model: ollama_chat/qwen2.5-coder:7b
+stream: true
+show-model-warnings: false
+auto-commits: true
+
+# Matugen Theme Configuration
+code-theme: matugen
+user-input-color: "{c_primary}"
+assistant-output-color: "{c_fg}"
+tool-output-color: "{c_muted}"
+tool-error-color: "{c_error}"
+tool-warning-color: "{c_primary}"
+completion-menu-color: "{c_fg}"
+completion-menu-bg-color: "{c_bg_card}"
+completion-menu-current-color: "{c_primary}"
+completion-menu-current-bg-color: "#412d00"
+"""
+    with open(conf_path, "w") as f:
+        f.write(conf_content)
+
+    # 2. Generate Matugen Pygments Style
+    style_path = os.path.join(aider_config_dir, "matugen_style.py")
+    pygments_style_code = f'''"""
+Matugen Pygments Style for Aider
+Dynamically synchronized with the desktop Matugen palette.
+"""
+from pygments.style import Style
+from pygments.token import (
+    Comment, Error, Generic, Keyword, Literal, Name, Number, Operator,
+    Other, Punctuation, String, Text, Token, Whitespace
+)
+
+class MatugenStyle(Style):
+    name = 'matugen'
+    background_color = '{c_bg}'
+    highlight_color = '{c_bg_card}'
+    line_number_color = '{c_muted}'
+    line_number_background_color = '{c_bg}'
+
+    styles = {{
+        Token: '{c_fg}',
+        Whitespace: '',
+        Error: '{c_error}',
+        Other: '',
+
+        Comment: 'italic {c_muted}',
+        Comment.Multiline: 'italic {c_muted}',
+        Comment.Preproc: 'bold {c_secondary}',
+        Comment.Single: 'italic {c_muted}',
+        Comment.Special: 'bold italic {c_secondary}',
+
+        Keyword: 'bold {c_primary}',
+        Keyword.Constant: 'bold {c_tertiary}',
+        Keyword.Declaration: 'bold {c_primary}',
+        Keyword.Namespace: 'bold {c_secondary}',
+        Keyword.Pseudo: '{c_primary}',
+        Keyword.Reserved: 'bold {c_primary}',
+        Keyword.Type: 'nobold {c_secondary}',
+
+        Operator: '{c_primary}',
+        Operator.Word: 'bold {c_primary}',
+
+        Punctuation: '{c_fg}',
+
+        Name: '{c_fg}',
+        Name.Attribute: '{c_secondary}',
+        Name.Builtin: '{c_secondary}',
+        Name.Builtin.Pseudo: '{c_secondary}',
+        Name.Class: 'bold {c_primary}',
+        Name.Constant: '{c_tertiary}',
+        Name.Decorator: 'bold {c_tertiary}',
+        Name.Entity: '{c_secondary}',
+        Name.Exception: 'bold {c_error}',
+        Name.Function: 'bold {c_primary}',
+        Name.Property: '{c_secondary}',
+        Name.Label: 'italic {c_secondary}',
+        Name.Namespace: '{c_secondary}',
+        Name.Other: '{c_fg}',
+        Name.Tag: 'bold {c_primary}',
+        Name.Variable: '{c_fg}',
+        Name.Variable.Class: '{c_fg}',
+        Name.Variable.Global: '{c_fg}',
+        Name.Variable.Instance: '{c_fg}',
+
+        Number: '{c_tertiary}',
+        Number.Float: '{c_tertiary}',
+        Number.Hex: '{c_tertiary}',
+        Number.Integer: '{c_tertiary}',
+        Number.Integer.Long: '{c_tertiary}',
+        Number.Oct: '{c_tertiary}',
+
+        Literal: '{c_tertiary}',
+        Literal.Date: '{c_tertiary}',
+
+        String: '{c_tertiary}',
+        String.Backtick: '{c_tertiary}',
+        String.Char: '{c_tertiary}',
+        String.Doc: 'italic {c_muted}',
+        String.Double: '{c_tertiary}',
+        String.Escape: 'bold {c_secondary}',
+        String.Heredoc: '{c_tertiary}',
+        String.Interpol: 'bold {c_secondary}',
+        String.Other: '{c_tertiary}',
+        String.Regex: '{c_secondary}',
+        String.Single: '{c_tertiary}',
+        String.Symbol: '{c_tertiary}',
+
+        Generic: '',
+        Generic.Deleted: '{c_error}',
+        Generic.Emph: 'italic',
+        Generic.Error: '{c_error}',
+        Generic.Heading: 'bold {c_primary}',
+        Generic.Inserted: '{c_tertiary}',
+        Generic.Output: '{c_muted}',
+        Generic.Prompt: 'bold {c_primary}',
+        Generic.Strong: 'bold',
+        Generic.EmphStrong: 'bold italic',
+        Generic.Subheading: 'bold {c_secondary}',
+        Generic.Traceback: '{c_error}',
+    }}
+'''
+    with open(style_path, "w") as f:
+        f.write(pygments_style_code)
+
+    # 3. Link style into Aider's uv pygments styles directory
+    import glob
+    pygments_dirs = glob.glob(os.path.expanduser("~/.local/share/uv/tools/aider-chat/lib/python*/site-packages/pygments/styles"))
+    for p_dir in pygments_dirs:
+        target_link = os.path.join(p_dir, "matugen.py")
+        if not os.path.exists(target_link) or os.path.realpath(target_link) != os.path.realpath(style_path):
+            try:
+                if os.path.lexists(target_link):
+                    os.remove(target_link)
+                os.symlink(style_path, target_link)
+            except Exception:
+                pass
+    print("✓ Aider: Configuration and Matugen Pygments code theme synchronized")
+except Exception as e:
+    print(f"✗ Aider error: {e}")
+
 print("=== Synchronization Complete ===")
+
 

@@ -177,8 +177,8 @@ try:
         with open(qucs_path, "r") as f:
             lines = f.readlines()
         updates = {
-            "BGColor": c_bg,
-            "GridColor": c_border,
+            "BGColor": c_fg,
+            "GridColor": c_muted,
             "Attribute": c_tertiary,
             "Character": c_error,
             "Comment": c_muted,

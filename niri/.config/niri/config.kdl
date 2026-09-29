@@ -494,6 +494,8 @@ binds {
     Ctrl+Shift+B hotkey-overlay-title="Package Manager: bptui" { spawn "ghostty" "-e" "/home/mark/.local/bin/bptui"; }
     Ctrl+Shift+M hotkey-overlay-title="Email Client: Matcha" { spawn "ghostty" "-e" "matcha"; }
     Ctrl+Shift+J hotkey-overlay-title="Media: Jellyfin TUI" { spawn "ghostty" "-e" "jellyfin-tui"; }
+    Ctrl+Shift+A hotkey-overlay-title="AI Assistant: aichat" { spawn "ghostty" "-e" "aichat"; }
+    Ctrl+Shift+D hotkey-overlay-title="Discord Client: Concord" { spawn "ghostty" "-e" "concord"; }
     Super+Alt+L hotkey-overlay-title="Lock the Screen: swaylock" { spawn "swaylock"; }
     Mod+Alt+R hotkey-overlay-title="Toggle Auto-Rotate Lock" { spawn "/home/mark/.local/bin/niri-rotate-toggle.sh"; }
     XF86RotationLockToggle allow-when-locked=true hotkey-overlay-title="Toggle Auto-Rotate Lock" { spawn "/home/mark/.local/bin/niri-rotate-toggle.sh"; }
@@ -508,8 +510,8 @@ binds {
     // The allow-when-locked=true property makes them work even when the session is locked.
     // Using spawn-sh allows to pass multiple arguments together with the command.
     // "-l 1.0" limits the volume to 100%.
-    XF86AudioRaiseVolume allow-when-locked=true { spawn-sh "wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.1+ -l 1.0"; }
-    XF86AudioLowerVolume allow-when-locked=true { spawn-sh "wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.1-"; }
+    XF86AudioRaiseVolume allow-when-locked=true { spawn-sh "wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.02+ -l 1.0"; }
+    XF86AudioLowerVolume allow-when-locked=true { spawn-sh "wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.02-"; }
     XF86AudioMute        allow-when-locked=true { spawn-sh "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"; }
     XF86AudioMicMute     allow-when-locked=true { spawn-sh "wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"; }
 
@@ -521,8 +523,8 @@ binds {
     XF86AudioNext        allow-when-locked=true { spawn-sh "playerctl next"; }
 
     // Brightness key mappings using Noctalia IPC (targets the currently focused monitor).
-    XF86MonBrightnessUp allow-when-locked=true { spawn "noctalia" "msg" "brightness-up" "10%"; }
-    XF86MonBrightnessDown allow-when-locked=true { spawn "noctalia" "msg" "brightness-down" "10%"; }
+    XF86MonBrightnessUp allow-when-locked=true { spawn "noctalia" "msg" "brightness-up" "2%"; }
+    XF86MonBrightnessDown allow-when-locked=true { spawn "noctalia" "msg" "brightness-down" "2%"; }
 
     // Open/close the Overview: a zoomed-out view of workspaces and windows.
     // You can also move the mouse into the top-left hot corner,

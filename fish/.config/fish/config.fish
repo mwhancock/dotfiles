@@ -90,3 +90,5 @@ set -gx EDITOR nvim
 
 # opencode
 fish_add_path /home/mark/.opencode/bin
+eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+

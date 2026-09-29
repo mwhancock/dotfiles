@@ -18,6 +18,8 @@
 | `Ctrl + Shift + B` | **bptui** | Bluetooth / package TUI |
 | `Ctrl + Shift + M` | **Matcha** | Terminal email client |
 | `Ctrl + Shift + J` | **Jellyfin TUI** | Terminal Jellyfin media client |
+| `Ctrl + Shift + A` | **aichat** | Terminal AI assistant chat |
+| `Ctrl + Shift + D` | **Concord** | Terminal Discord chat client |
 | `Super + Alt + L` | **Lock Screen** | Lock display via Swaylock |
 | `Super + Shift + C` | **Formatting Cheatsheet** | Floating Markdown, Mermaid & LaTeX reference |
 | `Super + /` or `Super + F1` | **Keybindings Cheatsheet** | This floating keybinds reference |

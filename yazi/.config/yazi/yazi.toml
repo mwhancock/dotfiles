@@ -27,6 +27,9 @@ browser = [
 rnote = [
     { run = 'rnote %s', desc = "Rnote", orphan = true, for = "unix" },
 ]
+qucs-s = [
+    { run = 'qucs-s %s', desc = "Qucs-S", orphan = true, for = "unix" },
+]
 
 
 [open]
@@ -34,6 +37,9 @@ prepend_rules = [
     # Notes
     { url = "*.rnote", use = [ "rnote", "open" ] },
     { mime = "application/rnote", use = [ "rnote", "open" ] },
+
+    # Schematics
+    { url = "*.sch", use = [ "qucs-s", "open" ] },
 
     # PDFs, EPUBs, and Comics
     { url = "*.pdf", use = [ "pdf", "open" ] },

@@ -241,4 +241,31 @@ $$\begin{aligned}
 |:---|:---|:---|
 | `<leader>op` | **PDF** | Pandoc + Typst engine (renders Mermaid SVG & LaTeX) |
 | `<leader>od` | **DOCX** | Pandoc native Word OMML equations & embedded diagrams |
+| `<leader>ol` | **Live PDF** | Toggle re-export on save (Zathura reloads it automatically) |
+| `<leader>om` | **Mermaid** | Format the ```` ```mermaid ```` blocks in the buffer (`mermaidfmt`) |
 | Terminal CLI | PDF or DOCX | `md-export input.md [pdf\|docx] [output]` |
+
+> **Live PDF**: with `<leader>ol` on (the default), saving a Markdown file that
+> already has a PDF beside it re-exports that PDF in the background. Open it in
+> Zathura and it reloads on every `:w` — write on the left, read on the right.
+> The first PDF still comes from `<leader>op`; `:MdLiveExport off` disables it.
+
+---
+
+## 5. Outliner (List Editing) Shortcuts
+
+Active in markdown buffers only. List items continue from the line you are on,
+so the shortcuts below work anywhere inside a bullet, numbered, or task list.
+
+| Keybinding | Mode | Action |
+|:---|:---|:---|
+| `<CR>` | insert | Continue the list (numbers increment, tasks get a fresh `[ ]`; `<CR>` on an empty item ends the list) |
+| `<Tab>` | normal / visual | Indent the item (or selected items) one level |
+| `<S-Tab>` | normal / visual | Outdent one level |
+| `o` / `O` | normal | Open a new sibling item below / above |
+| `<A-Down>` / `<A-Up>` | normal | Move the item (with its whole subtree) past the next / previous sibling |
+| `<leader>mt` | normal / visual | Toggle the checkbox on the line (or selection) |
+| `za` / `zc` / `zo` | normal | Fold / close / open the item's subtree (fold column is shown on the left) |
+
+Numbered lists are renumbered automatically after continuing, indenting, moving,
+or opening an item. Off a list item, `<Tab>` / `<S-Tab>` still switch buffers.

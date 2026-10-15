@@ -16,6 +16,7 @@ return {
         "rst",
         "markdown",
         "markdown_inline",
+        "mermaid",
         "bash",
         "lua",
         "toml",

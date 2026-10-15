@@ -57,6 +57,24 @@ end
 -- Keybindings for Markdown Export
 vim.keymap.set("n", "<leader>op", function() export_markdown("pdf") end, { desc = "Export Markdown to PDF" })
 vim.keymap.set("n", "<leader>od", function() export_markdown("docx") end, { desc = "Export Markdown to DOCX" })
+vim.keymap.set("n", "<leader>ol", function() require("config.live_export").toggle() end, { desc = "Toggle live PDF export on save" })
+
+-- Format the ```mermaid fences in this buffer on demand (see lua/config/mermaid.lua).
+vim.keymap.set("n", "<leader>om", function()
+  local ok, res = require("config.mermaid").format_buffer()
+  if not ok then
+    vim.notify("✗ Mermaid format: " .. res, vim.log.levels.ERROR, { title = "Mermaid Format", timeout = 8000 })
+  elseif res.total == 0 then
+    vim.notify("No ```mermaid blocks in this buffer.", vim.log.levels.INFO, { title = "Mermaid Format" })
+  elseif res.changed == 0 then
+    vim.notify("Mermaid blocks already formatted.", vim.log.levels.INFO, { title = "Mermaid Format", timeout = 3000 })
+  else
+    vim.notify("✓ Formatted " .. res.changed .. " mermaid block(s).", vim.log.levels.INFO, {
+      title = "Mermaid Format",
+      timeout = 4000,
+    })
+  end
+end, { desc = "Format Mermaid blocks (buffer)" })
 
 -- Buffer navigation convenience
 vim.keymap.set("n", "<Tab>", "<cmd>bnext<cr>", { desc = "Next Buffer" })

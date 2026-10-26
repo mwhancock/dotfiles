@@ -1,0 +1,280 @@
+config_version = 15
+
+[bar.default]
+background_opacity = 0.84999998100101948
+center = [ "clock", "date", "media" ]
+color = "primary"
+end = [ "tray", "notifications", "clipboard", "network", "bluetooth", "bar", "widget", "group:g3" ]
+margin_edge = 10
+margin_ends = 17
+radius = 0
+start = [ "workspaces" ]
+
+    [[bar.default.capsule_group]]
+    accordion = false
+    accordion_direction = "end"
+    border_width = 1.0
+    enabled = true
+    fill = "tertiary"
+    id = "g3"
+    members = [ "battery", "session" ]
+    opacity = 0.15000000596046448
+    padding = 8.0
+
+[control_center]
+width = 1050
+
+[idle]
+behavior_order = [ "lock", "screen-off", "lock-and-suspend" ]
+pre_action_fade_seconds = 5
+
+    [idle.behavior.lock]
+    action = "lock"
+    enabled = false
+    timeout = 600.0
+
+    [idle.behavior.lock-and-suspend]
+    action = "lock_and_suspend"
+    enabled = true
+    timeout = 900.0
+
+    [idle.behavior.screen-off]
+    action = "screen_off"
+    enabled = false
+    timeout = 610.0
+
+[location]
+latitude = 47.539332000000002
+longitude = -52.742058
+
+[lockscreen]
+enabled = true
+lock_before_suspend = true
+
+[lockscreen_widgets]
+enabled = false
+schema_version = 2
+widget_order = [ "lockscreen-login-box@DP-2", "lockscreen-login-box@DP-3", "lockscreen-login-box@eDP-1" ]
+
+    [lockscreen_widgets.grid]
+    cell_size = 16
+    major_interval = 4
+    visible = true
+
+    [lockscreen_widgets.widget."lockscreen-login-box@DP-2"]
+    box_height = 196.0
+    box_width = 810.0
+    cx = 960.0
+    cy = 898.0
+    output = "DP-2"
+    placement_height = 1080.0
+    placement_width = 1920.0
+    rotation = 0.0
+    type = "login_box"
+
+        [lockscreen_widgets.widget."lockscreen-login-box@DP-2".settings]
+        background_color = "surface_variant"
+        background_opacity = 0.88
+        background_radius = 12.0
+        center_password_text = false
+        input_opacity = 1.0
+        input_radius = 6.0
+        layout = "regular"
+        show_caps_lock = true
+        show_keyboard_layout = true
+        show_login_button = true
+        show_media = true
+        show_password_reveal = true
+        show_session_buttons = true
+        show_unlock_hint = true
+        show_weather = true
+
+    [lockscreen_widgets.widget."lockscreen-login-box@DP-3"]
+    box_height = 196.0
+    box_width = 810.0
+    cx = 960.0
+    cy = 898.0
+    output = "DP-3"
+    placement_height = 1080.0
+    placement_width = 1920.0
+    rotation = 0.0
+    type = "login_box"
+
+        [lockscreen_widgets.widget."lockscreen-login-box@DP-3".settings]
+        background_color = "surface_variant"
+        background_opacity = 0.88
+        background_radius = 12.0
+        center_password_text = false
+        input_opacity = 1.0
+        input_radius = 6.0
+        layout = "regular"
+        show_caps_lock = true
+        show_keyboard_layout = true
+        show_login_button = true
+        show_media = true
+        show_password_reveal = true
+        show_session_buttons = true
+        show_unlock_hint = true
+        show_weather = true
+
+    [lockscreen_widgets.widget."lockscreen-login-box@eDP-1"]
+    box_height = 196.0
+    box_width = 810.0
+    cx = 854.0
+    cy = 885.00006103515625
+    output = "eDP-1"
+    placement_height = 1067.0
+    placement_width = 1707.0
+    rotation = 0.0
+    type = "login_box"
+
+        [lockscreen_widgets.widget."lockscreen-login-box@eDP-1".settings]
+        background_color = "surface_variant"
+        background_opacity = 0.88
+        background_radius = 12.0
+        center_password_text = false
+        input_opacity = 1.0
+        input_radius = 6.0
+        layout = "regular"
+        show_caps_lock = true
+        show_keyboard_layout = true
+        show_login_button = true
+        show_media = true
+        show_password_reveal = true
+        show_session_buttons = true
+        show_unlock_hint = true
+        show_weather = true
+
+[plugin_settings."weinguyen/opencode-companion"]
+show_reasoning = true
+
+[plugin_settings."zumik3-del/opencode-go-usage"]
+api_key = "oc_sk_991b8f6c54c0_IG6cFlr5AbtaksJ46bJoqUhmRJ9mFyj3"
+
+[plugins]
+enabled = [
+    "yuuto/calculator",
+    "kenn/keybind-cheatsheet",
+    "avivbintangaringga/nix-monitor",
+    "knyrps/nix-search",
+    "mindnbytes/nix-status",
+    "fel/podcasts",
+    "raycursive/niri-displays",
+    "zumik3-del/opencode-go-usage"
+]
+
+[shell]
+font_family = "Inter"
+screen_time_enabled = true
+
+    [shell.panel]
+    control_center_placement = "floating"
+    session_placement = "floating"
+    transparency_mode = "soft"
+
+    [shell.screenshot]
+    confirm_region = true
+    remember_last_region = true
+
+    [[shell.session.actions]]
+    action = "lock"
+    countdown_seconds = 0.0
+    enabled = false
+    shortcut = "1"
+    variant = "default"
+
+    [[shell.session.actions]]
+    action = "logout"
+    countdown_seconds = 0.0
+    enabled = true
+    shortcut = "2"
+    variant = "default"
+
+    [[shell.session.actions]]
+    action = "lock_and_suspend"
+    countdown_seconds = 0.0
+    enabled = true
+    shortcut = "3"
+    variant = "default"
+
+    [[shell.session.actions]]
+    action = "reboot"
+    countdown_seconds = 0.0
+    enabled = true
+    shortcut = "4"
+    variant = "default"
+
+    [[shell.session.actions]]
+    action = "shutdown"
+    countdown_seconds = 0.0
+    enabled = true
+    shortcut = "5"
+    variant = "destructive"
+
+[theme]
+builtin = "Gruvbox"
+source = "wallpaper"
+
+    [theme.templates]
+    community_ids = [
+        "antigravity",
+        "opencode",
+        "spicetify",
+        "pywalfox",
+        "ungoogled-chromium",
+        "discord",
+        "micro",
+        "neovim",
+        "zed",
+        "heroiclauncher",
+        "steam",
+        "fuzzel",
+        "fastfetch",
+        "thunderbird",
+        "zathura",
+        "papirus-icons",
+        "bat",
+        "fzf",
+        "lazygit",
+        "tmux",
+        "yazi"
+    ]
+
+[wallpaper]
+directory = "/home/mark/Pictures/wallpaper"
+
+    [wallpaper.default]
+    path = "/home/mark/Pictures/wallpaper/1-the-backwater.jpg"
+
+    [wallpaper.last]
+    path = "/home/mark/Pictures/wallpaper/1-the-backwater.jpg"
+
+[widget.bar]
+type = "zumik3-del/opencode-go-usage:bar"
+
+[widget.battery]
+display_mode = "graphic"
+show_label = false
+
+[widget.bluetooth]
+hide_when_no_connected_device = true
+
+[widget.media]
+hide_when_no_media = true
+show_progress = true
+
+[widget.network]
+show_label = false
+
+[widget.notifications]
+hide_when_no_unread = true
+
+[widget.tray]
+drawer = true
+
+[widget.widget]
+type = "weinguyen/opencode-companion:widget"
+
+[widget.workspaces]
+capsule_fill = "on_tertiary"
+capsule_opacity = 0.42999999999999999

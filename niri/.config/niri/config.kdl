@@ -4,6 +4,9 @@
 // https://niri-wm.github.io/niri/Configuration:-Introduction
 
 // Input device configuration.
+// Named workspaces
+workspace "scratch"
+
 // Find the full list of options on the wiki:
 // https://niri-wm.github.io/niri/Configuration:-Input
 input {
@@ -368,6 +371,18 @@ window-rule {
 window-rule {
     match app-id=r#"^com\.mitchellh\.ghostty$"# is-active=true
     opacity 0.95
+}
+
+// Firefox always goes to scratch workspace
+window-rule {
+    match app-id=r#"^firefox$"#
+    open-on-workspace "scratch"
+}
+
+// Flatpak Firefox fallback
+window-rule {
+    match app-id=r#"^org\.mozilla\.firefox$"#
+    open-on-workspace "scratch"
 }
 
 // 3. Keep Firefox picture-in-picture player fully opaque
@@ -747,6 +762,10 @@ binds {
     Mod+P { screenshot; }
     Mod+Ctrl+P { screenshot-screen; }
     Mod+Alt+P { screenshot-window; }
+
+    // Scratch workspace (browser stays out of way)
+    Mod+Backslash { focus-workspace "scratch"; }
+    Mod+Shift+Backslash { move-window-to-workspace "scratch"; }
 
     // Applications such as remote-desktop clients and software KVM switches may
     // request that niri stops processing the keyboard shortcuts defined here

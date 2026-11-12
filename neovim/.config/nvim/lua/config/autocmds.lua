@@ -245,6 +245,35 @@ vim.api.nvim_create_autocmd("FileType", {
   end,
 })
 
+-- Manual toggle for the exact same sidebar set the resize controller manages
+-- (Neo-tree for code, Aerial outline for markdown, plus the minimap). Dismissing
+-- the explorer otherwise means focusing it and running :q.
+--
+-- This also overrides LazyVim's auto-enabled Snacks explorer bindings on
+-- <leader>e / <leader>E; <leader>fe and <leader>fE still open Snacks.
+local function toggle_sidebars()
+  if find_win_by_ft("neo-tree") or find_win_by_ft("aerial") then
+    close_sidebars()
+  else
+    open_sidebars()
+  end
+end
+
+local function bind_sidebar_toggle()
+  vim.keymap.set("n", "<leader>e", toggle_sidebars, { desc = "Toggle Sidebar (Explorer / Outline)" })
+  vim.keymap.set("n", "<leader>E", toggle_sidebars, { desc = "Toggle Sidebar (Explorer / Outline)" })
+end
+bind_sidebar_toggle()
+
+-- LazyVim's default Snacks explorer extra claims <leader>e / <leader>E during
+-- startup, after this file has run, so re-assert ours once startup completes.
+vim.api.nvim_create_autocmd("VimEnter", {
+  group = augroup("responsive_sidebar_keys"),
+  desc = "Re-apply the sidebar toggle keys after LazyVim's explorer keys load",
+  once = true,
+  callback = bind_sidebar_toggle,
+})
+
 -- 4. Re-apply Noctalia theme on SIGUSR1 (triggered when Noctalia changes theme)
 if _G.__noctalia_signal then
   _G.__noctalia_signal:stop()

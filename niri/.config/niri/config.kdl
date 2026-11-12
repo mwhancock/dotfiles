@@ -4,9 +4,6 @@
 // https://niri-wm.github.io/niri/Configuration:-Introduction
 
 // Input device configuration.
-// Named workspaces
-workspace "scratch"
-
 // Find the full list of options on the wiki:
 // https://niri-wm.github.io/niri/Configuration:-Input
 input {
@@ -80,7 +77,49 @@ input {
 
     // Focus windows and outputs automatically when moving the mouse into them.
     // Setting max-scroll-amount="0%" makes it work only on windows already fully on screen.
-    focus-follows-mouse
+    focus-follows-mouse max-scroll-amount="0%"
+}
+
+// The laptop panel is the only VRR-capable output here; DP-2 (the external
+// PTM15) reports "Variable refresh rate: not supported" and is left alone.
+// Without this block niri takes no `output` entry at all, so it enabled the
+// preferred mode -- 2560x1600 @ 165Hz -- with VRR off, and the panel sat at 165Hz
+// even when nothing was drawing.
+//
+// Only variable-refresh-rate is set. Adding mode/scale/position here would
+// override what niri currently picks automatically; the commented example below
+// carries a 1920x1080@120.030 mode and scale 2, which are not what is in use.
+output "eDP-1" {
+    variable-refresh-rate
+}
+
+// The external monitor, pinned to scale 1.
+//
+// `niri msg outputs` reports it at scale 1 already, so this is not a fix for
+// anything currently broken -- it is a pin, so that it stays at scale 1. The
+// two panels are 2560x1600 at 1.5 (1707x1066 logical) and 1920x1080; anything
+// that makes this pick 1.5 would letterbox a 1080p monitor into a 1280x720
+// image, which is worse than the current 1:1.
+//
+// Only scale. Naming the output at all is enough to apply it, and adding a
+// mode or a transform here would override what niri picks on its own -- the
+// reasoning in the eDP-1 block above applies unchanged. Note that iio-niri
+// also drives this output's transform through niri's IPC when the
+// accelerometer moves, and that only takes effect if its scale is not
+// fractional, which is the other reason to fix it here.
+//
+// The connector is DP-2, not DP-3. This block used to name DP-3, which matches
+// nothing niri can see -- `niri msg outputs` lists only eDP-1 and DP-2 -- so it
+// was inert, and the pin existed only on paper. DP-2 is what the external
+// PTM15 enumerates as on this machine; the PNP(WFK) "demoset-1" string in
+// `niri msg outputs` is the EDID identity of that same panel.
+//
+// A stale connector name fails silently. niri does not warn about an output
+// block that matches no connected output, so this stayed wrong through
+// reconnects and dock swaps without any visible sign. Re-check the name with
+// `niri msg outputs` if the external monitor is ever replaced or moved.
+output "DP-2" {
+    scale 1
 }
 
 // You can configure outputs by their name, which you can find
@@ -310,6 +349,23 @@ screenshot-path "~/Pictures/Screenshots/Screenshot from %Y-%m-%d %H-%M-%S.png"
 // You can also set this to null to disable saving screenshots to disk.
 // screenshot-path null
 
+// Cursor theme and size.
+//
+// This block is not cosmetic: without it niri uses xcursor-theme "default",
+// and no theme by that name is installed here (the icon dirs hold Adwaita,
+// Yaru and the Bibata family, plus hicolor). Every themed lookup then fails
+// with "error loading xcursor <name>@<size>: no default icon" in the journal,
+// and niri falls back to its built-in 64x64 arrow -- a fixed *physical* pixel
+// image, not a logical one. That is what made the cursor look oversized on the
+// external monitor; see the note on the DP-2 block below.
+//
+// Naming a real theme also lets niri load a correctly-sized image per output,
+// so the cursor tracks each panel's scale instead of being one fixed bitmap.
+cursor {
+    xcursor-theme "Adwaita"
+    xcursor-size 24
+}
+
 // Animation settings.
 // The wiki explains how to configure individual animations:
 // https://niri-wm.github.io/niri/Configuration:-Animations
@@ -373,18 +429,6 @@ window-rule {
     opacity 0.95
 }
 
-// Firefox always goes to scratch workspace
-window-rule {
-    match app-id=r#"^firefox$"#
-    open-on-workspace "scratch"
-}
-
-// Flatpak Firefox fallback
-window-rule {
-    match app-id=r#"^org\.mozilla\.firefox$"#
-    open-on-workspace "scratch"
-}
-
 // 3. Keep Firefox picture-in-picture player fully opaque
 window-rule {
     // This app-id regular expression will work for both:
@@ -443,7 +487,23 @@ window-rule {
     clip-to-geometry true
 }
 
-// Touchscreen gesture configuration (enabled by niri-tablet)
+// Touchscreen gesture configuration (niri-tablet patchset)
+//
+// Requires programs.niri.package to be the patched build -- see
+// modules/packages/niri-tablet.nix. Stock niri rejects all three nodes below
+// and refuses to start on a config that fails to parse, so this block only
+// loads there.
+//
+// Three names differ from the version this config was written against, because
+// the patchset renamed them (patches 0019/0020 derive the extra-finger tier from
+// `fingers` instead of hardcoding it to 4):
+//
+//     tap-4        -> tap-more
+//     swipe-4-down -> swipe-more-down
+//     swipe-4-up   -> swipe-more-up
+//
+// Everything else -- show-touch-points, touchscreen-swipe, hold, and
+// touchscreen-edge-swipe -- is unchanged.
 gestures {
     // Show visual indicator dots during multi-finger gestures
     show-touch-points "gestures"
@@ -459,10 +519,10 @@ gestures {
         // horizontal-swipe "resize-column"
 
         // Quick taps and flicks (fire on finger release):
-        tap          { maximize-column; }
-        tap-4        { spawn-sh "noctalia msg panel-toggle launcher"; }
-        swipe-4-down { close-window; }
-        swipe-4-up   { fullscreen-window; }
+        tap             { maximize-column; }
+        tap-more        { spawn-sh "noctalia msg panel-toggle launcher"; }
+        swipe-more-down { close-window; }
+        swipe-more-up   { fullscreen-window; }
 
         // Press, hold ~400ms, then swipe: moves the active window
         hold {
@@ -512,8 +572,15 @@ binds {
     Ctrl+Shift+A hotkey-overlay-title="AI Assistant: aichat" { spawn "ghostty" "-e" "aichat"; }
     Ctrl+Shift+D hotkey-overlay-title="Discord Client: Concord" { spawn "ghostty" "-e" "concord"; }
     Super+Alt+L hotkey-overlay-title="Lock the Screen: swaylock" { spawn "swaylock"; }
-    Mod+Alt+R hotkey-overlay-title="Toggle Auto-Rotate Lock" { spawn "/home/mark/.local/bin/niri-rotate-toggle.sh"; }
-    XF86RotationLockToggle allow-when-locked=true hotkey-overlay-title="Toggle Auto-Rotate Lock" { spawn "/home/mark/.local/bin/niri-rotate-toggle.sh"; }
+    // Auto-rotation. iio-niri owns the accelerometer, so it is the thing that
+    // has the lock state -- these call it directly instead of running a script.
+    // niri-rotate-toggle.sh does not exist on this machine (it never did in this
+    // repo), so these two bindings were dead: pressing them silently did
+    // nothing. iio-niri's IPC needs the monitor named as it appears in
+    // `niri msg outputs`, which is why services.iio-niri in
+    // modules/hardware/tablet.nix passes --monitor eDP-1.
+    Mod+Alt+R hotkey-overlay-title="Toggle Auto-Rotate Lock" { spawn "iio-niri" "msg" "toggle-lock-rotation"; }
+    XF86RotationLockToggle allow-when-locked=true hotkey-overlay-title="Toggle Auto-Rotate Lock" { spawn "iio-niri" "msg" "toggle-lock-rotation"; }
     Mod+Alt+K hotkey-overlay-title="Toggle On-Screen Keyboard" { spawn "/home/mark/.local/bin/toggle-osk"; }
 
     // Use spawn-sh to run a shell command. Do this if you need pipes, multiple commands, etc.
@@ -703,6 +770,12 @@ binds {
     // Cycling through the presets in reverse order is also possible.
     Mod+Shift+R { switch-preset-column-width-back; }
 
+    // The height toggle stays on Mod+Ctrl+Shift+R, which is niri's own default and
+    // what the comment above `preset-window-heights` documents. It was going to
+    // move to H so this combination could take rotation lock instead, but H is
+    // already move-column-to-monitor-left and niri treats modifier order as
+    // irrelevant, so there was no letter to free up. Rotation lock is on the
+    // two bindings above and on the hardware key, which is enough.
     Mod+Ctrl+Shift+R { switch-preset-window-height; }
     Mod+Ctrl+R { reset-window-height; }
 
@@ -759,13 +832,9 @@ binds {
     Print { screenshot; }
     Ctrl+Print { screenshot-screen; }
     Alt+Print { screenshot-window; }
-    Mod+P { screenshot; }
+    Mod+P { spawn "lumine-capture"; }
     Mod+Ctrl+P { screenshot-screen; }
     Mod+Alt+P { screenshot-window; }
-
-    // Scratch workspace (browser stays out of way)
-    Mod+Backslash { focus-workspace "scratch"; }
-    Mod+Shift+Backslash { move-window-to-workspace "scratch"; }
 
     // Applications such as remote-desktop clients and software KVM switches may
     // request that niri stops processing the keyboard shortcuts defined here
@@ -784,8 +853,17 @@ binds {
     // Powers off the monitors. To turn them back on, do any input like
     // moving the mouse or pressing any other key.
     Mod+Shift+P { power-off-monitors; }
-    
-    
+
+    // Manual display rotation, via the niri-rotate script in
+    // hosts/nixos/home.nix. Auto-rotation stays on until
+    // one of these is used: the script locks it before writing the transform,
+    // because iio-niri otherwise reverts a transform set behind its back within
+    // a second. Mod+Shift+X hands control back to the accelerometer.
+    Mod+Shift+A hotkey-overlay-title="Rotate display left" { spawn "niri-rotate" "left"; }
+    Mod+Shift+D hotkey-overlay-title="Rotate display right" { spawn "niri-rotate" "right"; }
+    Mod+Shift+Z hotkey-overlay-title="Reset display rotation" { spawn "niri-rotate" "normal"; }
+    Mod+Shift+X hotkey-overlay-title="Toggle auto-rotation" { spawn "niri-rotate" "toggle"; }
+
 }
 spawn-at-startup "noctalia"
 

@@ -1,0 +1,35 @@
+# Per-monitor brightness for Noctalia.
+#
+# Without this, Noctalia has nothing to offer on DP-3. Its brightness service
+# only knows about /sys/class/backlight, and the eDP-1 panel is the only thing
+# there -- ddcutil calls that laptop display an "Invalid display", correctly,
+# because laptop panels do not speak DDC/CI. The external monitor does, on
+# /dev/i2c-17. So without enable_ddcutil the monitor has no brightness control
+# at all: no slider, no keys, no OSD.
+#
+# Each monitor therefore gets an explicit backend. eDP-1 is the kernel's
+# backlight attribute; DP-3 is DDC over I2C.
+#
+# ddc_bus is pinned even though ddcutil only reports one usable display here.
+# Detection is by EDID, and both of this machine's DDC-capable paths resolve
+# to the same connector string, so leaving it to inference is how the wrong bus
+# gets claimed when a second identical monitor shows up. Pinning survives that.
+# If ddcutil detect ever moves DP-3 to another bus, this is the line to update.
+#
+# sync_all_monitors stays off: eDP-1 and DP-3 are separate physical panels with
+# independent brightness, and one slider should not move both.
+#
+# Validated with:
+#   noctalia config validate \
+#     ~/dotfiles/noctalia/.config/noctalia/brightness.toml
+[brightness]
+enable_ddcutil = true
+sync_all_monitors = false
+
+[brightness.monitor."eDP-1"]
+backend = "backlight"
+backlight_device = "amdgpu_bl1"
+
+[brightness.monitor."DP-3"]
+backend = "ddcutil"
+ddc_bus = "/dev/i2c-17"

@@ -1,4 +1,4 @@
-config_version = 15
+config_version = 16
 
 [bar.default]
 background_opacity = 0.84999998100101948
@@ -73,7 +73,7 @@ widget_order = [ "lockscreen-login-box@DP-2", "lockscreen-login-box@DP-3", "lock
     type = "login_box"
 
         [lockscreen_widgets.widget."lockscreen-login-box@DP-2".settings]
-        background_color = "surface_variant"
+        background_color = "surface_container"
         background_opacity = 0.88
         background_radius = 12.0
         center_password_text = false
@@ -101,7 +101,7 @@ widget_order = [ "lockscreen-login-box@DP-2", "lockscreen-login-box@DP-3", "lock
     type = "login_box"
 
         [lockscreen_widgets.widget."lockscreen-login-box@DP-3".settings]
-        background_color = "surface_variant"
+        background_color = "surface_container"
         background_opacity = 0.88
         background_radius = 12.0
         center_password_text = false
@@ -120,16 +120,16 @@ widget_order = [ "lockscreen-login-box@DP-2", "lockscreen-login-box@DP-3", "lock
     [lockscreen_widgets.widget."lockscreen-login-box@eDP-1"]
     box_height = 196.0
     box_width = 810.0
-    cx = 854.0
-    cy = 885.00006103515625
+    cx = 533.81256103515625
+    cy = 1415.8341064453125
     output = "eDP-1"
-    placement_height = 1067.0
-    placement_width = 1707.0
+    placement_height = 1707.0
+    placement_width = 1067.0
     rotation = 0.0
     type = "login_box"
 
         [lockscreen_widgets.widget."lockscreen-login-box@eDP-1".settings]
-        background_color = "surface_variant"
+        background_color = "surface_container"
         background_opacity = 0.88
         background_radius = 12.0
         center_password_text = false
@@ -148,9 +148,6 @@ widget_order = [ "lockscreen-login-box@DP-2", "lockscreen-login-box@DP-3", "lock
 [plugin_settings."weinguyen/opencode-companion"]
 show_reasoning = true
 
-[plugin_settings."zumik3-del/opencode-go-usage"]
-api_key = "REDACTED"
-
 [plugins]
 enabled = [
     "yuuto/calculator",
@@ -166,6 +163,9 @@ enabled = [
 [shell]
 font_family = "Inter"
 screen_time_enabled = true
+
+    [shell.launcher]
+    sort_by_usage = false
 
     [shell.panel]
     control_center_placement = "floating"
@@ -250,6 +250,7 @@ directory = "/home/mark/Pictures/wallpaper"
     path = "/home/mark/Pictures/wallpaper/1-the-backwater.jpg"
 
 [widget.bar]
+enabled = false
 type = "zumik3-del/opencode-go-usage:bar"
 
 [widget.battery]

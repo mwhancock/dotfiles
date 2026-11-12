@@ -10,7 +10,7 @@ show_symlink = true
 
 [opener]
 edit = [
-    { run = '${EDITOR:-nvim} %s', desc = "Editor", block = true, for = "unix" },
+    { run = 'nvim %s', desc = "Editor", block = true, for = "unix" },
 ]
 open = [
     { run = 'xdg-open %s1', desc = "Open", orphan = true, for = "linux" },
@@ -34,6 +34,97 @@ qucs-s = [
 
 [open]
 prepend_rules = [
+    # Markdown & code -> Neovim. Extension rules come first on purpose:
+    # first match wins, and mime alone is unreliable for them (empty files
+    # report application/octet-stream, *.ts can report video/mp2t), which
+    # would drop them to mpv/xdg-open instead of the editor.
+    #
+    # Markdown
+    { url = "*.md", use = [ "edit", "open" ] },
+    { url = "*.markdown", use = [ "edit", "open" ] },
+    { url = "*.mdown", use = [ "edit", "open" ] },
+    { url = "*.mkd", use = [ "edit", "open" ] },
+    { url = "*.mdx", use = [ "edit", "open" ] },
+
+    # Systems & compiled languages
+    { url = "*.c", use = [ "edit", "open" ] },
+    { url = "*.h", use = [ "edit", "open" ] },
+    { url = "*.cc", use = [ "edit", "open" ] },
+    { url = "*.cpp", use = [ "edit", "open" ] },
+    { url = "*.cxx", use = [ "edit", "open" ] },
+    { url = "*.hpp", use = [ "edit", "open" ] },
+    { url = "*.hh", use = [ "edit", "open" ] },
+    { url = "*.cs", use = [ "edit", "open" ] },
+    { url = "*.go", use = [ "edit", "open" ] },
+    { url = "*.rs", use = [ "edit", "open" ] },
+    { url = "*.zig", use = [ "edit", "open" ] },
+    { url = "*.swift", use = [ "edit", "open" ] },
+    { url = "*.java", use = [ "edit", "open" ] },
+    { url = "*.kt", use = [ "edit", "open" ] },
+    { url = "*.kts", use = [ "edit", "open" ] },
+
+    # Interpreted & scripting
+    { url = "*.py", use = [ "edit", "open" ] },
+    { url = "*.pyw", use = [ "edit", "open" ] },
+    { url = "*.pyi", use = [ "edit", "open" ] },
+    { url = "*.rb", use = [ "edit", "open" ] },
+    { url = "*.php", use = [ "edit", "open" ] },
+    { url = "*.lua", use = [ "edit", "open" ] },
+    { url = "*.pl", use = [ "edit", "open" ] },
+    { url = "*.r", use = [ "edit", "open" ] },
+    { url = "*.dart", use = [ "edit", "open" ] },
+    { url = "*.ex", use = [ "edit", "open" ] },
+    { url = "*.exs", use = [ "edit", "open" ] },
+    { url = "*.hs", use = [ "edit", "open" ] },
+    { url = "*.ml", use = [ "edit", "open" ] },
+    { url = "*.mli", use = [ "edit", "open" ] },
+    { url = "*.clj", use = [ "edit", "open" ] },
+    { url = "*.scala", use = [ "edit", "open" ] },
+
+    # Shell
+    { url = "*.sh", use = [ "edit", "open" ] },
+    { url = "*.bash", use = [ "edit", "open" ] },
+    { url = "*.zsh", use = [ "edit", "open" ] },
+    { url = "*.fish", use = [ "edit", "open" ] },
+    { url = "*.vim", use = [ "edit", "open" ] },
+
+    # Web & frontend. "*.ts" is TypeScript first, MPEG-TS second.
+    { url = "*.ts", use = [ "edit", "open" ] },
+    { url = "*.tsx", use = [ "edit", "open" ] },
+    { url = "*.mts", use = [ "edit", "open" ] },
+    { url = "*.cts", use = [ "edit", "open" ] },
+    { url = "*.js", use = [ "edit", "open" ] },
+    { url = "*.mjs", use = [ "edit", "open" ] },
+    { url = "*.cjs", use = [ "edit", "open" ] },
+    { url = "*.jsx", use = [ "edit", "open" ] },
+    { url = "*.html", use = [ "edit", "open" ] },
+    { url = "*.htm", use = [ "edit", "open" ] },
+    { url = "*.css", use = [ "edit", "open" ] },
+    { url = "*.scss", use = [ "edit", "open" ] },
+    { url = "*.sass", use = [ "edit", "open" ] },
+    { url = "*.less", use = [ "edit", "open" ] },
+    { url = "*.vue", use = [ "edit", "open" ] },
+    { url = "*.svelte", use = [ "edit", "open" ] },
+    { url = "*.astro", use = [ "edit", "open" ] },
+
+    # Data & config
+    { url = "*.json", use = [ "edit", "open" ] },
+    { url = "*.jsonc", use = [ "edit", "open" ] },
+    { url = "*.yaml", use = [ "edit", "open" ] },
+    { url = "*.yml", use = [ "edit", "open" ] },
+    { url = "*.toml", use = [ "edit", "open" ] },
+    { url = "*.ini", use = [ "edit", "open" ] },
+    { url = "*.cfg", use = [ "edit", "open" ] },
+    { url = "*.conf", use = [ "edit", "open" ] },
+    { url = "*.xml", use = [ "edit", "open" ] },
+    { url = "*.nix", use = [ "edit", "open" ] },
+    { url = "*.tf", use = [ "edit", "open" ] },
+    { url = "*.tfvars", use = [ "edit", "open" ] },
+    { url = "*.sql", use = [ "edit", "open" ] },
+    { url = "*.proto", use = [ "edit", "open" ] },
+    { url = "*.graphql", use = [ "edit", "open" ] },
+    { url = "*.env", use = [ "edit", "open" ] },
+
     # Notes
     { url = "*.rnote", use = [ "rnote", "open" ] },
     { mime = "application/rnote", use = [ "rnote", "open" ] },

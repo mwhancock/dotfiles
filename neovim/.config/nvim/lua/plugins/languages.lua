@@ -80,11 +80,17 @@ return {
         "codelldb",
         "jdtls",
         "clangd",
-        "gradle",
+        -- No "gradle": mason's registry has gradle-language-server but no
+        -- `gradle`, and get_package() errors on a miss, which aborted the rest
+        -- of this list. Gradle is a build tool anyway: projects use ./gradlew
+        -- and the JVM devshell supplies the CLI.
+        --
+        -- kotlin-language-server is absent for the reason in the lspconfig
+        -- block above: it is disabled there, so installing it here only
+        -- wasted downloads.
         "marksman",
         "java-debug-adapter",
         "java-test",
-        "kotlin-language-server",
         "ktlint",
         "kotlin-debug-adapter",
         "pyright",

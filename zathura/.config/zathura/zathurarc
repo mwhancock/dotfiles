@@ -1,5 +1,8 @@
-# Load Noctalia Theme (automatically updated with theme changes)
-include noctaliarc
+# Colours are not set here. omarchy's theme-set.d/zathura hook owns them: it
+# rewrites ~/.config/zathura/zathurarc between the markers it writes, so every
+# `omarchy theme set` recolours zathura to match the desktop. Anything set in
+# this file outside those markers survives; colour lines added here would too,
+# but would fight the hook on the next theme change.
 
 # Clipboard integration
 set selection-clipboard clipboard
@@ -13,3 +16,41 @@ set render-loading "false"
 # Title & Status
 set window-title-home-tilde "true"
 set statusbar-basename "true"
+
+# >>> omarchy theme colors, managed by theme-set.d/zathura >>>
+# Generated from the gruvbox theme. Edits inside this block are
+# overwritten on the next `omarchy theme set`.
+set default-bg "#282828"
+set default-fg "#d4be98"
+
+set statusbar-bg "#1e1e1e"
+set statusbar-fg "#d4be98"
+
+set inputbar-bg "#1e1e1e"
+set inputbar-fg "#d4be98"
+
+set notification-bg "#d4be98"
+set notification-fg "#1e1e1e"
+set notification-error-bg "#ea6962"
+set notification-error-fg "#282828"
+set notification-warning-bg "#d8a657"
+set notification-warning-fg "#282828"
+
+set completion-bg "#1e1e1e"
+set completion-fg "#d4be98"
+set completion-group-bg "#1e1e1e"
+set completion-group-fg "#665c54"
+set completion-highlight-bg "#504945"
+set completion-highlight-fg "#d4be98"
+
+set index-bg "#1e1e1e"
+set index-fg "#d4be98"
+set index-active-bg "#504945"
+set index-active-fg "#d4be98"
+
+set highlight-color "#7daea3"
+set highlight-active-color "#7daea3"
+
+set recolor-darkcolor "#282828"
+set recolor-lightcolor "#d4be98"
+# <<< omarchy theme colors <<<
